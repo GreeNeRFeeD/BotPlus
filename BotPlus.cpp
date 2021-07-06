@@ -2162,7 +2162,7 @@ int main()
 
 			if (Keyboard::isKeyPressed(Keyboard::Space))//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			{	
-				int Step, NextStep, Points, n = 0, times = 0, p = 0, BestStep;
+				int Step, NextStep, Points, n = 0, times = 0, p = 0, BestStep = 0;
 
 				//poz_mas[3] = pionNegru1
 				if (board[poz_mas[3].y + 1][poz_mas[3].x] == 0) { // boar x y (можно ли походить вперед)
@@ -2199,18 +2199,27 @@ int main()
 					switch (step_mas[BestStep].deistvie)
 					{
 					case (0):
+						board[poz_mas[3].y][poz_mas[3].x] = 0;						
+						//board[poz_mas[3].y +1][poz_mas[3].x] = 11;
+						board[poz_mas[3].y + 1][poz_mas[3].x] = PionNEGRU1;
 						break;
 
 					case (1):
+						board[poz_mas[3].y][poz_mas[3].x] = 0;
+						board[poz_mas[3].y + 1][poz_mas[3].x - 1] = PionNEGRU1;
 						break;
 
 					case (2):
-						break;
-					
-
-					
+						board[poz_mas[3].y][poz_mas[3].x] = 0;
+						board[poz_mas[3].y + 1][poz_mas[3].x + 1] = PionNEGRU1;
+						break;					
 					}
 				}
+
+				mutare = 0; // передача хода белым
+
+				/*poz_mas[3].y = i;
+				poz_mas[3].x = j;*/
 
 				/*numarPiesaMutata = PionNEGRU1;
 				Mutare = PionNegru;
