@@ -1,21 +1,28 @@
 ﻿  BotPlus.cpp
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(1744): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(1745): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2085): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2090): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2107): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2112): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2117): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2123): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2129): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2134): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2139): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2144): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2149): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2154): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2159): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2164): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2044): warning C4101: Step: неиспользованная локальная переменная
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2044): warning C4101: Points: неиспользованная локальная переменная
-c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2044): warning C4101: NextStep: неиспользованная локальная переменная
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(1818): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(1819): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2217): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2222): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2239): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2244): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2249): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2254): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2259): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2264): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2269): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2274): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2281): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2286): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2292): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2298): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2303): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2308): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2313): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2318): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2323): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2328): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2333): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2164): warning C4101: Step: неиспользованная локальная переменная
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2164): warning C4101: Points: неиспользованная локальная переменная
+c:\users\skril\source\repos\botplus\botplus\botplus.cpp(2164): warning C4101: NextStep: неиспользованная локальная переменная
   BotPlus.vcxproj -> C:\Users\skril\source\repos\BotPlus\Debug\BotPlus.exe
