@@ -24,7 +24,7 @@
 #define ReginaNEGRU 5
 #define RegeNEGRU 6
 #define RegeALB -6
-#define size_struct 15
+#define size_struct 16
 #define step_struct 15
 
 using namespace sf;
@@ -41,25 +41,31 @@ struct poz {
 
 struct Step {
 	int point;
-	std::string name;
+	//std::string name;
+	int name;
 	int deistvie; // 0 - ходить, 1 - бить
 }step_mas[step_struct];
 
-/*poz_mas[0] = oldPoz
-poz_mas[1] = regeleAlb
-poz_mas[2] = regeleNegru
-poz_mas[3] = pionNegru1
-poz_mas[4] = pionNegru2
-poz_mas[5] = pionNegru3
-poz_mas[6] = pionNegru4
-poz_mas[7] = pionNegru5
-poz_mas[8] = pionNegru6
-poz_mas[9] = pionNegru7
-poz_mas[10] = pionNegru8
-poz_mas[11] = transformA
-poz_mas[12] = transformN*/
+/*poz_mas[0] = pionNegru1
+poz_mas[1] = pionNegru2
+poz_mas[2] = pionNegru3
+poz_mas[3] = pionNegru4
+poz_mas[4] = pionNegru5
+poz_mas[5] = pionNegru6
+poz_mas[6] =  pionNegru7
+poz_mas[7] = pionNegru8
+poz_mas[8] = 
+poz_mas[9] = 
+poz_mas[10] =
 
+poz_mas[11] = regeleAlb
+poz_mas[12] = regeleNegru
+poz_mas[13] = oldPoz 
+poz_mas[14] = transformA
+poz_mas[15] = transformN
+*/
 
+const int Size_Board = 8;
 int  size = 100, move = 0, x, y;
 int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
@@ -80,10 +86,13 @@ int sahAlb = 0, sahNegru = 0, sahPionNegru = 0;
 
 int transformareAlb = 0, transformareNegru = 0;
 
-
+int asdf()
+{
+	return 5 < 8;
+}
 int PionA(int ox, int oy, int nx, int ny)
 {
-	if (poz_mas[0].y == 6)
+	if (poz_mas[13].y == 6)
 	{
 		if ((ny == oy - 1 && nx == ox && board[oy - 1][ox] == 0) || (ny == oy - 2 && nx == ox && board[oy - 1][ox] == 0 && board[oy - 2][ox] == 0))
 		{
@@ -113,7 +122,7 @@ int PionA(int ox, int oy, int nx, int ny)
 
 int PionN(int ox, int oy, int nx, int ny)
 {
-	if (poz_mas[0].y == 1)
+	if (poz_mas[13].y == 1)
 	{
 		if ((ny == oy + 1 && nx == ox && board[oy + 1][ox] == 0) || (ny == oy + 2 && nx == ox && board[oy + 1][ox] == 0 && board[oy + 2][ox] == 0))
 		{
@@ -1561,8 +1570,8 @@ void pozRegeAlb()
 		{
 			if (board[i][j] == RegeALB)
 			{
-				poz_mas[1].x = j;
-				poz_mas[1].y = i;
+				poz_mas[11].x = j;
+				poz_mas[11].y = i;
 				break;
 			}
 		}
@@ -1577,8 +1586,8 @@ void pozRegeNegru()
 		{
 			if (board[i][j] == RegeNEGRU)
 			{
-				poz_mas[2].y = i;
-				poz_mas[2].x = j;
+				poz_mas[12].y = i;
+				poz_mas[12].x = j;
 				break;
 			}
 		}
@@ -1632,51 +1641,51 @@ int PionNegruSahCheck(int posPionx, int posPiony)//-----------------------------
 
 void pozPionNegru()//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	for (int i = 0; i < LUNGIME; i++)
+	for (int i = 0; i < Size_Board; i++)
 	{
-		for (int j = 0; j < LUNGIME; j++)
+		for (int j = 0; j < Size_Board; j++)
 		{
 			if (board[i][j] == PionNEGRU1)//---------------------------------------------------------------------------------------------------------------------------------------------
 			{
-				poz_mas[3].y = i;
-				poz_mas[3].x = j;
+				poz_mas[0].y = i;
+				poz_mas[0].x = j;	
 				/// break;
 			}
 			///---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			if (board[i][j] == PionNEGRU2)
 			{
+				poz_mas[1].y = i;
+				poz_mas[1].x = j;
+			}
+			if (board[i][j] == PionNEGRU3)
+			{
+				poz_mas[2].y = i;
+				poz_mas[2].x = j;
+			}
+			if (board[i][j] == PionNEGRU4)
+			{
+				poz_mas[3].y = i;
+				poz_mas[3].x = j;
+			}
+			if (board[i][j] == PionNEGRU5)
+			{
 				poz_mas[4].y = i;
 				poz_mas[4].x = j;
 			}
-			if (board[i][j] == PionNEGRU3)
+			if (board[i][j] == PionNEGRU6)
 			{
 				poz_mas[5].y = i;
 				poz_mas[5].x = j;
 			}
-			if (board[i][j] == PionNEGRU4)
+			if (board[i][j] == PionNEGRU7)
 			{
 				poz_mas[6].y = i;
 				poz_mas[6].x = j;
 			}
-			if (board[i][j] == PionNEGRU5)
+			if (board[i][j] == PionNEGRU8)
 			{
 				poz_mas[7].y = i;
 				poz_mas[7].x = j;
-			}
-			if (board[i][j] == PionNEGRU6)
-			{
-				poz_mas[8].y = i;
-				poz_mas[8].x = j;
-			}
-			if (board[i][j] == PionNEGRU7)
-			{
-				poz_mas[9].y = i;
-				poz_mas[9].x = j;
-			}
-			if (board[i][j] == PionNEGRU8)
-			{
-				poz_mas[10].y = i;
-				poz_mas[10].x = j;
 			}
 			///---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		}
@@ -1741,36 +1750,36 @@ int main()
 			if (e.type == Event::MouseButtonPressed)
 			{
 				if (e.key.code == Mouse::Left)
-				{					
+				{
 					if (transformareAlb == 1)
 					{
-						if (pos.y >= poz_mas[11].y * size && pos.y <= (poz_mas[11].y + 1) * size && pos.x >= poz_mas[11].x * size && pos.x <= (poz_mas[11].x + 1) * size)
+						if (pos.y >= poz_mas[14].y * size && pos.y <= (poz_mas[14].y + 1) * size && pos.x >= poz_mas[14].x * size && pos.x <= (poz_mas[14].x + 1) * size)
 						{
-							int xx = pos.x % 100, yy = pos.y % 100;							
+							int xx = pos.x % 100, yy = pos.y % 100;
 							if (xx < 50 && yy < 50 && xx > 0 && yy > 0)
 							{
-								board[poz_mas[11].y][poz_mas[11].x] = TurnALB;
+								board[poz_mas[14].y][poz_mas[14].x] = TurnALB;
 								transformareAlb = 0;
 							}
 							if (xx > 50 && xx < 100 && yy < 50 && yy > 0)
 							{
-								board[poz_mas[11].y][poz_mas[11].x] = ReginaALB;
+								board[poz_mas[14].y][poz_mas[14].x] = ReginaALB;
 								transformareAlb = 0;
 							}
 							if (xx > 50 && xx < 100 && yy>50 && yy < 100)
 							{
-								board[poz_mas[11].y][poz_mas[11].x] = CalALB;
+								board[poz_mas[14].y][poz_mas[14].x] = CalALB;
 								transformareAlb = 0;
 							}
 							if (xx < 50 && xx>0 && yy > 50 && y < 100)
 							{
-								board[poz_mas[11].y][poz_mas[11].x] = NebunALB;
+								board[poz_mas[14].y][poz_mas[14].x] = NebunALB;
 								transformareAlb = 0;
 							}
 							if (transformareAlb == 0)
 							{
 								pozRegeNegru();
-								int h = RegeNegruSahCheck(poz_mas[2].x, poz_mas[2].y);
+								int h = RegeNegruSahCheck(poz_mas[12].x, poz_mas[12].y);
 								if (h == 0)
 								{
 									sahNegru = 1;
@@ -1780,33 +1789,33 @@ int main()
 					}
 					if (transformareNegru == 1)
 					{
-						if (pos.y >= poz_mas[12].y * size && pos.y <= (poz_mas[12].y + 1) * size && pos.x >= poz_mas[12].x * size && pos.x <= (poz_mas[12].x + 1) * size)
+						if (pos.y >= poz_mas[15].y * size && pos.y <= (poz_mas[15].y + 1) * size && pos.x >= poz_mas[15].x * size && pos.x <= (poz_mas[15].x + 1) * size)
 						{
-							int xx = pos.x % 100, yy = pos.y % 100;							
+							int xx = pos.x % 100, yy = pos.y % 100;
 							if (xx < 50 && yy < 50 && xx > 0 && yy > 0)
 							{
-								board[poz_mas[12].y][poz_mas[12].x] = TurnNEGRU;
+								board[poz_mas[15].y][poz_mas[15].x] = TurnNEGRU;
 								transformareNegru = 0;
 							}
 							if (xx > 50 && xx < 100 && yy < 50 && yy > 0)
 							{
-								board[poz_mas[12].y][poz_mas[12].x] = ReginaNEGRU;
+								board[poz_mas[15].y][poz_mas[15].x] = ReginaNEGRU;
 								transformareNegru = 0;
 							}
 							if (xx > 50 && xx < 100 && yy>50 && yy < 100)
 							{
-								board[poz_mas[12].y][poz_mas[12].x] = CalNEGRU;
+								board[poz_mas[15].y][poz_mas[15].x] = CalNEGRU;
 								transformareNegru = 0;
 							}
 							if (xx < 50 && xx>0 && yy > 50 && y < 100)
 							{
-								board[poz_mas[12].y][poz_mas[12].x] = NebunNEGRU;
+								board[poz_mas[15].y][poz_mas[15].x] = NebunNEGRU;
 								transformareNegru = 0;
 							}
 							if (transformareNegru == 0)
 							{
 								pozRegeAlb();
-								int h = RegeAlbSahCheck(poz_mas[1].x, poz_mas[1].y);
+								int h = RegeAlbSahCheck(poz_mas[11].x, poz_mas[11].y);
 								if (h == 0)
 								{
 									sahAlb = 1;
@@ -1835,7 +1844,7 @@ int main()
 							numarPiesaMutata = PionNEGRU3;
 							Mutare = PionNegru;
 							board[y][x] = 0;
-							break;	
+							break;
 						case (PionNEGRU4):
 							numarPiesaMutata = PionNEGRU4;
 							Mutare = PionNegru;
@@ -1941,8 +1950,8 @@ int main()
 						if (board[y][x] == 0)
 						{
 							move = 1;
-							poz_mas[0].x = x;
-							poz_mas[0].y = y;
+							poz_mas[13].x = x;
+							poz_mas[13].y = y;
 						}
 					}
 				}
@@ -1954,74 +1963,74 @@ int main()
 					int ok = 2;
 					if (numarPiesaMutata == PionALB && move == 1)
 					{
-						ok = PionA(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = PionA(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if ((numarPiesaMutata == PionNEGRU1 || numarPiesaMutata == PionNEGRU2 || numarPiesaMutata == PionNEGRU3 || numarPiesaMutata == PionNEGRU4 || numarPiesaMutata == PionNEGRU5 || numarPiesaMutata == PionNEGRU6 || numarPiesaMutata == PionNEGRU7 || numarPiesaMutata == PionNEGRU8) && move == 1) /// пешка //---------------------------------------------------------------------------------------------------------------------------------------------
 					{
-						ok = PionN(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = PionN(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == TurnALB && move == 1)
 					{
-						ok = TurnA(poz_mas[0].x, poz_mas[0].y, x, y);
-						if (ok == 1 && turnAlbStanga == 0 && poz_mas[0].y == 7 && poz_mas[0].x == 0)
+						ok = TurnA(poz_mas[13].x, poz_mas[13].y, x, y);
+						if (ok == 1 && turnAlbStanga == 0 && poz_mas[13].y == 7 && poz_mas[13].x == 0)
 						{
-							turnAlbStanga = 1;							
+							turnAlbStanga = 1;
 						}
-						if (ok == 1 && turnAlbDreapta == 0 && poz_mas[0].y == 7 && poz_mas[0].x == 7)
+						if (ok == 1 && turnAlbDreapta == 0 && poz_mas[13].y == 7 && poz_mas[13].x == 7)
 						{
-							turnAlbDreapta = 1;							
+							turnAlbDreapta = 1;
 						}
 					}
 					if (numarPiesaMutata == TurnNEGRU && move == 1) ///
 					{
-						ok = TurnN(poz_mas[0].x, poz_mas[0].y, x, y);
-						if (ok == 1 && turnNegruDreapta == 0 && poz_mas[0].y == 0 && poz_mas[0].x == 7)
+						ok = TurnN(poz_mas[13].x, poz_mas[13].y, x, y);
+						if (ok == 1 && turnNegruDreapta == 0 && poz_mas[13].y == 0 && poz_mas[13].x == 7)
 						{
-							turnNegruDreapta = 1;							
+							turnNegruDreapta = 1;
 						}
-						if (ok == 1 && turnNegruStanga == 0 && poz_mas[0].y == 0 && poz_mas[0].x == 0)
+						if (ok == 1 && turnNegruStanga == 0 && poz_mas[13].y == 0 && poz_mas[13].x == 0)
 						{
-							turnNegruStanga = 1;							
+							turnNegruStanga = 1;
 						}
 					}
 					if (numarPiesaMutata == NebunALB && move == 1)
 					{
-						ok = NebunA(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = NebunA(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == NebunNEGRU && move == 1) ///
 					{
-						ok = NebunN(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = NebunN(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == ReginaALB && move == 1)
 					{
-						ok = ReginaA(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = ReginaA(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == ReginaNEGRU && move == 1) ///
 					{
-						ok = ReginaN(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = ReginaN(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == CalALB && move == 1)
 					{
-						ok = CalA(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = CalA(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == CalNEGRU && move == 1) ///
 					{
-						ok = CalN(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = CalN(poz_mas[13].x, poz_mas[13].y, x, y);
 					}
 					if (numarPiesaMutata == RegeNEGRU && move == 1) ///
 					{
-						ok = RegeN(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = RegeN(poz_mas[13].x, poz_mas[13].y, x, y);
 						if (ok == 1 && regeNegru == 0)
 						{
-							regeNegru = 1;							
+							regeNegru = 1;
 						}
 					}
 					if (numarPiesaMutata == RegeALB && move == 1)
 					{
-						ok = RegeA(poz_mas[0].x, poz_mas[0].y, x, y);
+						ok = RegeA(poz_mas[13].x, poz_mas[13].y, x, y);
 						if (ok == 1 && regeAlb == 0)
 						{
-							regeAlb = 1;							
+							regeAlb = 1;
 						}
 					}
 					if (ok == 1)
@@ -2031,15 +2040,15 @@ int main()
 						if (y == 0 && numarPiesaMutata == PionALB)
 						{
 							transformareAlb = 1;
-							poz_mas[11].x = x;
-							poz_mas[11].y = y;
+							poz_mas[14].x = x;
+							poz_mas[14].y = y;
 							board[y][x] = 0;
 						}
 						if (y == 7 && (numarPiesaMutata == PionNEGRU1 || numarPiesaMutata == PionNEGRU2 || numarPiesaMutata == PionNEGRU3 || numarPiesaMutata == PionNEGRU4 || numarPiesaMutata == PionNEGRU5 || numarPiesaMutata == PionNEGRU6 || numarPiesaMutata == PionNEGRU7 || numarPiesaMutata == PionNEGRU8))
 						{
 							transformareNegru = 1;
-							poz_mas[12].x = x;
-							poz_mas[12].y = y;
+							poz_mas[15].x = x;
+							poz_mas[15].y = y;
 							board[y][x] = 0;
 						}
 						if (mutare == 0) // белые пошли, а черные следуют
@@ -2047,17 +2056,17 @@ int main()
 							if (sahAlb == 1)
 							{
 								pozRegeAlb();
-								int s = RegeAlbSahCheck(poz_mas[1].x, poz_mas[1].y);
+								int s = RegeAlbSahCheck(poz_mas[11].x, poz_mas[11].y);
 								if (s == 0)
 								{
-									board[poz_mas[0].y][poz_mas[0].x] = numarPiesaMutata;
+									board[poz_mas[13].y][poz_mas[13].x] = numarPiesaMutata;
 									board[y][x] = nr;
 								}
 								else
 								{
 									sahAlb = 0;
 									pozRegeNegru();
-									int sah = RegeNegruSahCheck(poz_mas[2].x, poz_mas[2].y);
+									int sah = RegeNegruSahCheck(poz_mas[12].x, poz_mas[12].y);
 									if (sah == 0)
 									{
 										sahNegru = 1;
@@ -2068,16 +2077,16 @@ int main()
 							else
 							{
 								pozRegeAlb();
-								int sa = RegeAlbSahCheck(poz_mas[1].x, poz_mas[1].y);
+								int sa = RegeAlbSahCheck(poz_mas[11].x, poz_mas[11].y);
 								if (sa == 0)
 								{
-									board[poz_mas[0].y][poz_mas[0].x] = numarPiesaMutata;
+									board[poz_mas[13].y][poz_mas[13].x] = numarPiesaMutata;
 									board[y][x] = nr;
 								}
 								else
 								{
 									pozRegeNegru();
-									int sah = RegeNegruSahCheck(poz_mas[2].x, poz_mas[2].y);
+									int sah = RegeNegruSahCheck(poz_mas[12].x, poz_mas[12].y);
 									if (sah == 0)
 									{
 										sahNegru = 1;
@@ -2089,11 +2098,11 @@ int main()
 
 						/*else // черные пошли, а белые пошли следом ------------------------------------------------------------------------------------------------------------------------------------
 						{
-							
+
 								//PionN(oldPoz.x, oldPoz.y, x, y);
 								//PionN(180, 180, 280, 180);
 								//mutare = 0;
-							
+
 							if (board[y][x] == PionNEGRU && mutare == 1) /// пешка
 							{
 								numarPiesaMutata = PionNEGRU;
@@ -2154,131 +2163,211 @@ int main()
 					}
 					else if (ok == 0)
 					{
-						board[poz_mas[0].y][poz_mas[0].x] = numarPiesaMutata;
+						board[poz_mas[13].y][poz_mas[13].x] = numarPiesaMutata;
 					}
 					move = 0;
 				}
 			}
 
-			if (Keyboard::isKeyPressed(Keyboard::Space))//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			{	
-				int Step, NextStep, Points, n = 0, times = 0, p = 0, BestStep = 0;
 
-				//poz_mas[3] = pionNegru1
-				if (board[poz_mas[3].y + 1][poz_mas[3].x] == 0) { // boar x y (можно ли походить вперед)
+			if (e.type == Event::MouseButtonReleased)//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			{
+				if (e.key.code == Mouse::Right)
+				{					
+					    /*poz_mas[0] = pionNegru1
+						poz_mas[1] = pionNegru2
+						poz_mas[2] = pionNegru3
+						poz_mas[3] = pionNegru4
+						poz_mas[4] = pionNegru5
+						poz_mas[5] = pionNegru6
+						poz_mas[6] = pionNegru7
+						poz_mas[7] = pionNegru8*/
+					step_mas[0].name = PionNEGRU1;
+					step_mas[1].name = PionNEGRU2;
+					step_mas[2].name = PionNEGRU3;
+					step_mas[3].name = PionNEGRU4;
+					step_mas[4].name = PionNEGRU5;
+					step_mas[5].name = PionNEGRU6;
+					step_mas[6].name = PionNEGRU7;
+					step_mas[7].name = PionNEGRU8;
 
-					step_mas[n].point = 1;
-					step_mas[n].deistvie = 0;///
-				}
-				if (board[poz_mas[3].y + 1 < LUNGIME][poz_mas[3].x - 1 >= 0] < 0) { // есть ли кто слева
+					int Step, NextStep, n = 0, times = 0, p = 0, BestStep = 0, plus = 0;
+					pozPionNegru();
 
-					step_mas[n].point = 10; // смотря кто там стоит кол-во баллов
-					step_mas[n].deistvie = 1;///
-				}
-				if (board[poz_mas[3].y + 1 < LUNGIME][poz_mas[3].x + 1 < LUNGIME] < 0) { // есть ли кто справа
+					while (plus < 8) {
 
-					times = 10; /// смотря кто там стоит кол-во баллов
-					if (step_mas[n].point < times) {
-						step_mas[n].point = times;
-						step_mas[n].deistvie = 2;///
-					}					
-				}					
-				step_mas[n].name = "PionNEGRU1";
-				
-				// лучший результат = ход
-				n = 0;
-				while (p < 14) { // это в самом конце после анализа всех фигур
+						//(int ox, int oy, int nx, int ny)					
 
-					if (step_mas[n].point > step_mas[n + 1].point) BestStep = n;
-					p++;
-					n++;
-				}
-
-				if (step_mas[BestStep].name == "PionNEGRU1" || step_mas[BestStep].name == "PionNEGRU2" || step_mas[BestStep].name == "PionNEGRU3" || step_mas[BestStep].name == "PionNEGRU4" || step_mas[BestStep].name == "PionNEGRU5" || step_mas[BestStep].name == "PionNEGRU6" || step_mas[BestStep].name == "PionNEGRU7" || step_mas[BestStep].name == "PionNEGRU8") {
-
-					switch (step_mas[BestStep].deistvie)
-					{
-					case (0):
-						board[poz_mas[3].y][poz_mas[3].x] = 0;						
-						//board[poz_mas[3].y +1][poz_mas[3].x] = 11;
-						board[poz_mas[3].y + 1][poz_mas[3].x] = PionNEGRU1;
-						break;
-
-					case (1):
-						board[poz_mas[3].y][poz_mas[3].x] = 0;
-						board[poz_mas[3].y + 1][poz_mas[3].x - 1] = PionNEGRU1;
-						break;
-
-					case (2):
-						board[poz_mas[3].y][poz_mas[3].x] = 0;
-						board[poz_mas[3].y + 1][poz_mas[3].x + 1] = PionNEGRU1;
-						break;					
+						if (poz_mas[plus].y == 1) // если позиция пешки начальная
+						{
+							if (poz_mas[plus].y + 2 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0 && board[poz_mas[plus].y + 2][poz_mas[plus].x] == 0) // ходить на 2 вперед
+							{
+								step_mas[n].point = 2;
+								step_mas[n].deistvie = 2;
+							}
+						}
+						else if (poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0) // в любых других случаях (обычный ход вперед на 1)
+						{
+							step_mas[n].point = 1;
+							step_mas[n].deistvie = 1;
+						}
+						if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x - 1 >= 0) {
+							if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) // бить левее 
+							{
+								step_mas[n].point = 10; // смотря кто там стоит кол-во баллов
+								step_mas[n].deistvie = 3;
+							}
+						}
+						if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x + 1 < Size_Board) {
+							if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] < 0) // бить правее
+							{
+								times = 15; /// смотря кто там стоит кол-во баллов
+								if (step_mas[n].point < times) {
+									step_mas[n].point = times;
+									step_mas[n].deistvie = 4;
+								}
+							}
+						}
+						n++;
+						plus++;
 					}
-				}
+					/*if (board[poz_mas[0].y + 1][poz_mas[0].x] == 0) { // board x y (можно ли походить вперед)
 
-				mutare = 0; // передача хода белым
+						step_mas[n].point = 1;
+						step_mas[n].deistvie = 0;///
+					}
+					if (board[poz_mas[0].y + 1 < LUNGIME][poz_mas[0].x - 1 >= 0] < 0) { // есть ли кто слева
 
-				/*poz_mas[3].y = i;
-				poz_mas[3].x = j;*/
+						step_mas[n].point = 10; // смотря кто там стоит кол-во баллов
+						step_mas[n].deistvie = 1;///
+					}
+					if (board[poz_mas[0].y + 1 < LUNGIME][poz_mas[0].x + 1 < LUNGIME] < 0) { // есть ли кто справа
 
-				/*numarPiesaMutata = PionNEGRU1;
-				Mutare = PionNegru;
-				board[y][x] = 0;
-				break;*/
+						times = 10; /// смотря кто там стоит кол-во баллов
+						if (step_mas[n].point < times) {
+							step_mas[n].point = times;
+							step_mas[n].deistvie = 2;///
+						}
+					}*/				
+
+					// лучший результат = ход
+					n = 0;
+					while (p < 7) { // это в самом конце после анализа всех фигур ( меньше скольки кол-ва записей)
+						if (step_mas[n].point < step_mas[n + 1].point) { BestStep = n + 1; p++;	n++; }
+						else { p++;	n++; }
+					}
+					
+					if (step_mas[BestStep].name == PionNEGRU1 || step_mas[BestStep].name == PionNEGRU2 || step_mas[BestStep].name == PionNEGRU3 || step_mas[BestStep].name == PionNEGRU4 || step_mas[BestStep].name == PionNEGRU5 || step_mas[BestStep].name == PionNEGRU6 || step_mas[BestStep].name == PionNEGRU7 || step_mas[BestStep].name == PionNEGRU8) {
+
+						if (step_mas[BestStep].deistvie == 1) { // ход вперед на 1 
+
+							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x] = step_mas[BestStep].name;
+						}
+						else if (step_mas[BestStep].deistvie == 3) { // бить влево
+
+							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
+						}
+						else if (step_mas[BestStep].deistvie == 4) { // бить вправо
+
+							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
+						}
+						else if (step_mas[BestStep].deistvie == 2) { // ход вперед на 2
+
+							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+							board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x] = PionNEGRU1;
+						}
+
+						mutare = 0; // передача хода белым
+
+						/*switch (step_mas[BestStep].deistvie)
+						{
+						case (0): // ход на 1 вперед
+
+							//if (board[poz_mas[0].y + 1][poz_mas[0].x] == 0) {
 								
-				/*struct Step {
-					int point;
-					std::string str;
-					int deistvie; // (У пешки: 0 - ход вперед, 1 - бить левее, 2 - бить правее)
-				}step_mas[step_struct];*/
+
+								board[poz_mas[0].y][poz_mas[0].x] = 0;
+								board[poz_mas[0].y + 1][poz_mas[0].x] = PionNEGRU1;
+							//}
+							//poz_mas[0].y = poz_mas[0].y + 1;///-
+
+							break;
+
+						case (1): // бить слева
+							board[poz_mas[0].y][poz_mas[0].x] = 0;
+							board[poz_mas[0].y + 1][poz_mas[0].x - 1] = PionNEGRU1;
+
+							//poz_mas[0].y = poz_mas[0].y + 1;///-
+							//poz_mas[0].x = poz_mas[0].x - 1;///-
+
+							break;
+
+						case (2): // бить справа
+							board[poz_mas[0].y][poz_mas[0].x] = 0;
+							board[poz_mas[0].y + 1][poz_mas[0].x + 1] = PionNEGRU1;
+
+							//poz_mas[0].y = poz_mas[0].y + 1;///-
+							//poz_mas[0].x = poz_mas[0].x + 1;///-
+
+							break;
+						case (3): // ход на 2 вперед
+							board[poz_mas[0].y][poz_mas[0].x] = 0;
+							board[poz_mas[0].y + 2][poz_mas[0].x] = PionNEGRU1;
+
+							//poz_mas[0].y = poz_mas[0].y + 2;///-
+
+							break;
+						}*/
+					}
+					//pozPionNegru();
+					
+
+					/*poz_mas[0].y = i;
+					poz_mas[0].x = j;*/					
+
+					/*struct Step {
+						int point;
+						std::string str;
+						int deistvie; // (У пешки: 0 - ход вперед, 1 - бить левее, 2 - бить правее)
+					}step_mas[step_struct];				
 
 
-				/*Vector2i pos = Mouse::getPosition(window);
-				x = pos.x / size;
-				y = pos.y / size;
-
-				int nr = board[y][x];
-
-				pozPionNegru();
-				int sah = PionNegruSahCheck(pionNegru.x, pionNegru.y);
-				if (sah == 0)
-				{
-					board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
-					board[y][x] = nr;
-				}
-				else
-				{
-					sahAlb = 0;
-					pozRegeNegru();
-					int sah = RegeNegruSahCheck(regeleNegru.x, regeleNegru.y);
+					pozPionNegru();
+					int sah = PionNegruSahCheck(pionNegru.x, pionNegru.y);
 					if (sah == 0)
 					{
-						sahNegru = 1;
+						board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
+						board[y][x] = nr;
 					}
-					mutare = 1;
-				}*/
+					else
+					{
+						sahAlb = 0;
+						pozRegeNegru();
+						int sah = RegeNegruSahCheck(regeleNegru.x, regeleNegru.y);
+						if (sah == 0)
+						{
+							sahNegru = 1;
+						}
+						mutare = 1;
+					}*/	
+				}//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-				/*numarPiesaMutata = PionNEGRU1;
-				board[3][4] = PionNEGRU1;
-				Mutare = PionNegru;
-				board[1][2] = 0;
-				mutare = 0;*/
-
-				
-			}//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+			}
 		}
 		// Отображать
 		window.clear();
 		window.draw(tabla);
 		if (transformareAlb == 1)
 		{
-			TransformareALB.setPosition(poz_mas[11].x * size, poz_mas[11].y * size);
+			TransformareALB.setPosition(poz_mas[14].x * size, poz_mas[14].y * size);
 			window.draw(TransformareALB);
 		}
 		if (transformareNegru == 1)
 		{
-			TransformareNEGRU.setPosition(poz_mas[12].x * size, poz_mas[12].y * size);
+			TransformareNEGRU.setPosition(poz_mas[15].x * size, poz_mas[15].y * size);
 			window.draw(TransformareNEGRU);
 		}
 		if (move == 1)
@@ -2286,9 +2375,9 @@ int main()
 			Mutare.setPosition(pos.x - dx, pos.y - dy);
 			window.draw(Mutare);
 		}
-		for (int i = 0; i < LUNGIME; i++)
+		for (int i = 0; i < Size_Board; i++)
 		{
-			for (int j = 0; j < LUNGIME; j++)
+			for (int j = 0; j < Size_Board; j++)
 			{
 
 				if (board[i][j] != 0)
