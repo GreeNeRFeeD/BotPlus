@@ -26,8 +26,8 @@
 #define ReginaNEGRU 5 //
 #define RegeNEGRU 6 //
 #define RegeALB -6
-#define size_struct 25
-#define step_struct 25
+#define size_struct 40
+#define step_struct 40
 
 using namespace sf;
 //using namespace std;
@@ -42,10 +42,13 @@ struct poz {
 }poz_mas[size_struct];
 
 struct Step {
-	int point;
-	//std::string name;
+	int point;	
 	int name;
 	int deistvie; // 0 - ходить, 1 - бить
+	int marker;
+	int oldx;
+	int oldy;
+	int life;
 }step_mas[step_struct];
 
 /*poz_mas[0] = pionNegru1
@@ -70,11 +73,10 @@ poz_mas[17] = regeleNegru
 poz_mas[18] = oldPoz 
 poz_mas[19] = transformA
 poz_mas[20] = transformN
-
 */
 
 const int Size_Board = 8;
-int  size = 100, move = 0, x, y, n = 0;
+int  size = 75, move = 0, x, y, n = 0;
 int board[8][8] =
 { 21, 31, 41, 5, 6, 42, 32, 22,
   11, 12, 13, 14, 15, 16, 17, 18,
@@ -94,10 +96,6 @@ int sahAlb = 0, sahNegru = 0, sahPionNegru = 0;
 
 int transformareAlb = 0, transformareNegru = 0;
 
-int asdf()
-{
-	return 5 < 8;
-}
 int PionA(int ox, int oy, int nx, int ny)
 {
 	if (poz_mas[18].y == 6)
@@ -1729,11 +1727,48 @@ void pozPionNegru()//-----------------------------------------------------------
 			{
 				poz_mas[14].y = i;
 				poz_mas[14].x = j;
-			}
+			}			
 			if (board[i][j] == RegeNEGRU)
 			{
 				poz_mas[15].y = i;
 				poz_mas[15].x = j;
+			}
+			//-------
+			if (board[i][j] == PionALB)
+			{
+				poz_mas[16].y = i;
+				poz_mas[16].x = j;
+				board[i][j] = -1;
+			}
+			if (board[i][j] == TurnALB)
+			{
+				poz_mas[17].y = i;
+				poz_mas[17].x = j;
+				board[i][j] = -2;
+			}
+			if (board[i][j] == CalALB)
+			{
+				poz_mas[18].y = i;
+				poz_mas[18].x = j;
+				board[i][j] = -3;
+			}
+			if (board[i][j] == NebunALB)
+			{
+				poz_mas[19].y = i;
+				poz_mas[19].x = j;
+				board[i][j] = -4;
+			}
+			if (board[i][j] == ReginaALB)
+			{
+				poz_mas[20].y = i;
+				poz_mas[20].x = j;
+				board[i][j] = -5;
+			}
+			if (board[i][j] == RegeALB)
+			{
+				poz_mas[21].y = i;
+				poz_mas[21].x = j;
+				board[i][j] = -6;
 			}
 		}
 	}
@@ -1742,7 +1777,7 @@ void pozPionNegru()//-----------------------------------------------------------
 
 int main()
 {
-	RenderWindow window(VideoMode(800, 800), "Chess");
+	RenderWindow window(VideoMode(600, 600), "Chess");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
 
 	t1.loadFromFile("images/board.png");
@@ -1780,6 +1815,23 @@ int main()
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
+
+	step_mas[0].life = 1;
+	step_mas[1].life = 1;
+	step_mas[2].life = 1;
+	step_mas[3].life = 1;
+	step_mas[4].life = 1;
+	step_mas[5].life = 1;
+	step_mas[6].life = 1;
+	step_mas[7].life = 1;
+	step_mas[8].life = 1;
+	step_mas[9].life = 1;
+	step_mas[10].life = 1;
+	step_mas[11].life = 1;
+	step_mas[12].life = 1;
+	step_mas[13].life = 1;
+	step_mas[14].life = 1;
+	step_mas[15].life = 1;	
 
 	while (window.isOpen())
 	{
@@ -1853,7 +1905,7 @@ int main()
 							{
 								board[poz_mas[20].y][poz_mas[20].x] = ReginaNEGRU;
 								transformareNegru = 0;
-							}
+							}							
 							if (xx > 50 && xx < 100 && yy>50 && yy < 100)
 							{
 								board[poz_mas[20].y][poz_mas[20].x] = CalNEGRU1;
@@ -1887,8 +1939,8 @@ int main()
 					}
 					if (board[y][x] != 0)
 					{
-						dx = pos.x - x * 100;
-						dy = pos.y - y * 100;
+						dx = pos.x - x * size;
+						dy = pos.y - y * size;
 
 						switch (board[y][x])//---------------------------------------------------------------------------------------------------------------------------------------------
 						{
@@ -2023,7 +2075,7 @@ int main()
 							numarPiesaMutata = ReginaNEGRU;
 							Mutare = ReginaNegru;
 							board[y][x] = 0;
-						}
+						}					
 						if (board[y][x] == RegeNEGRU && mutare == 1) ///
 						{
 							numarPiesaMutata = RegeNEGRU;
@@ -2183,8 +2235,7 @@ int main()
 									mutare = 1;
 								}
 							}
-						}
-						
+						}						
 					}
 					else if (ok == 0)
 					{
@@ -2194,12 +2245,135 @@ int main()
 				}
 			}
 
-
-			if (e.type == Event::MouseButtonReleased)//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			{
-				if (e.key.code == Mouse::Right)
+			if (mutare == 1) {
+				if (e.type == Event::MouseButtonReleased)//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				{
-					    /*poz_mas[0] = pionNegru1
+					if (e.key.code == Mouse::Right)
+					{
+						/*
+						for (int i = 0; i < Size_Board; i++)
+						{
+							for (int j = 0; j < Size_Board; j++)
+							{
+								if (board[i][j] != 0)
+								{
+									if (board[i][j] == PionNEGRU1)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU2)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU3)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU4)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU5)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU6)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU7)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionNEGRU8)
+									{
+										PionNegru.setPosition(j * size, i * size);
+										window.draw(PionNegru);
+									}
+									if (board[i][j] == PionALB)
+									{
+										PionAlb.setPosition(j * size, i * size);
+										window.draw(PionAlb);
+									}
+									if (board[i][j] == TurnNEGRU1)
+									{
+										TurnNegru.setPosition(j * size, i * size);
+										window.draw(TurnNegru);
+									}
+									if (board[i][j] == TurnNEGRU2)
+									{
+										TurnNegru.setPosition(j * size, i * size);
+										window.draw(TurnNegru);
+									}
+									if (board[i][j] == TurnALB)
+									{
+										TurnAlb.setPosition(j * size, i * size);
+										window.draw(TurnAlb);
+									}
+									if (board[i][j] == CalALB)
+									{
+										CalAlb.setPosition(j * size, i * size);
+										window.draw(CalAlb);
+									}
+									if (board[i][j] == CalNEGRU1)
+									{
+										CalNegru.setPosition(j * size, i * size);
+										window.draw(CalNegru);
+									}
+									if (board[i][j] == CalNEGRU2)
+									{
+										CalNegru.setPosition(j * size, i * size);
+										window.draw(CalNegru);
+									}
+									if (board[i][j] == NebunNEGRU1)
+									{
+										NebunNegru.setPosition(j * size, i * size);
+										window.draw(NebunNegru);
+									}
+									if (board[i][j] == NebunNEGRU2)
+									{
+										NebunNegru.setPosition(j * size, i * size);
+										window.draw(NebunNegru);
+									}
+									if (board[i][j] == NebunALB)
+									{
+										NebunAlb.setPosition(j * size, i * size);
+										window.draw(NebunAlb);
+									}
+									if (board[i][j] == ReginaALB)
+									{
+										ReginaAlb.setPosition(j * size, i * size);
+										window.draw(ReginaAlb);
+									}
+									if (board[i][j] == ReginaNEGRU)
+									{
+										ReginaNegru.setPosition(j * size, i * size);
+										window.draw(ReginaNegru);
+									}
+									if (board[i][j] == RegeNEGRU)
+									{
+										RegeNegru.setPosition(j * size, i * size);
+										window.draw(RegeNegru);
+									}
+									if (board[i][j] == RegeALB)
+									{
+										RegeAlb.setPosition(j * size, i * size);
+										window.draw(RegeAlb);
+									}
+								}
+							}
+						}
+						*/
+
+
+						/*poz_mas[0] = pionNegru1
 						poz_mas[1] = pionNegru2
 						poz_mas[2] = pionNegru3
 						poz_mas[3] = pionNegru4
@@ -2215,534 +2389,1095 @@ int main()
 						poz_mas[13] = nebunNegru2
 						poz_mas[14] = reginaNegru
 						poz_mas[15] = regeNegru	*/
-					step_mas[0].name = PionNEGRU1;
-					step_mas[1].name = PionNEGRU2;
-					step_mas[2].name = PionNEGRU3;
-					step_mas[3].name = PionNEGRU4;
-					step_mas[4].name = PionNEGRU5;
-					step_mas[5].name = PionNEGRU6;
-					step_mas[6].name = PionNEGRU7;
-					step_mas[7].name = PionNEGRU8;
+						step_mas[0].name = PionNEGRU1;
+						step_mas[1].name = PionNEGRU2;
+						step_mas[2].name = PionNEGRU3;
+						step_mas[3].name = PionNEGRU4;
+						step_mas[4].name = PionNEGRU5;
+						step_mas[5].name = PionNEGRU6;
+						step_mas[6].name = PionNEGRU7;
+						step_mas[7].name = PionNEGRU8;
 
-					step_mas[8].name = CalNEGRU1;
-					step_mas[9].name = CalNEGRU2;
+						step_mas[8].name = CalNEGRU1;
+						step_mas[9].name = CalNEGRU2;
 
-					step_mas[10].name = TurnNEGRU1;
-					step_mas[11].name = TurnNEGRU2;
+						step_mas[10].name = TurnNEGRU1;
+						step_mas[11].name = TurnNEGRU2;
 
-					step_mas[12].name = NebunNEGRU1;
-					step_mas[13].name = NebunNEGRU2;
+						step_mas[12].name = NebunNEGRU1;
+						step_mas[13].name = NebunNEGRU2;
 
-					step_mas[14].name = ReginaNEGRU;
+						step_mas[14].name = ReginaNEGRU;						
 
-					step_mas[15].name = RegeNEGRU;
+						step_mas[15].name = RegeNEGRU;
 
-					int Step, NextStep, times = 0, p = 0, BestStep = 0, plus = 0, z = 0, Longturn = 0, Longnebun = 0, RU = 0, LD = 0;
-					pozPionNegru();				
-					n = 0;
+						/*step_mas[0].life = 1;
+						step_mas[1].life = 1;
+						step_mas[2].life = 1;
+						step_mas[3].life = 1;
+						step_mas[4].life = 1;
+						step_mas[5].life = 1;
+						step_mas[6].life = 1;
+						step_mas[7].life = 1;
+						step_mas[8].life = 1;
+						step_mas[9].life = 1;
+						step_mas[10].life = 1;
+						step_mas[11].life = 1;
+						step_mas[12].life = 1;
+						step_mas[13].life = 1;
+						step_mas[14].life = 1;						
+						step_mas[15].life = 1;*/
 
-					while (z < 20) {
-						step_mas[n].point = 0;
-						step_mas[n].deistvie = 0;
-						z++;
-					}
-					
-					while (plus < 8) { // Проверка Пешек -----------------------------------------------------------------------------------------------------------
+						int Step, NextStep, times = 0, p = 0, BestStep = 0, BestPoint = 0, plus = 0, z = 0, Longturn = 0, Longnebun = 0, RU = 0, LD = 0, LU = 0, RD = 0, CL = 0, Longregina = 0, ReginaRD = 0, ReginaRU = 0, ReginaLU = 0, ReginaLD = 0;
 
-						if (poz_mas[plus].y == 1) // если позиция пешки начальная
-						{
-							if (poz_mas[plus].y + 2 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0 && board[poz_mas[plus].y + 2][poz_mas[plus].x] == 0) // ходить на 2 вперед
-							{
-								if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x) == 1) { step_mas[n].point = 1; }
-								else { step_mas[n].point = -1; }								
-								step_mas[n].point += 3;
-								step_mas[n].deistvie = 2;
+						while (CL < 16) { // Проверка жизни фигур бота
+
+							if (board[step_mas[CL].oldy][step_mas[CL].oldx] < 0) {
+
+								step_mas[CL].life = 0;
+							}
+							CL++;
+						}	
+
+						pozPionNegru();
+						
+						z = 0; // обнуление данных после хода черных
+						while (z < 25) {
+							step_mas[z].point = 0;
+							step_mas[z].deistvie = 0;
+							z++;
+						}
+						n = 0;
+						// Пешки
+						while (plus < 8) { // Проверка Пешек -----------------------------------------------------------------------------------------------------------
+
+							if (step_mas[plus].life == 1) {
+
+								if (poz_mas[plus].y == 1) // если позиция пешки начальная								
+								{
+									if (poz_mas[plus].y + 2 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0 && board[poz_mas[plus].y + 2][poz_mas[plus].x] == 0) // ходить на 2 вперед
+									{
+										if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x) == 1) { step_mas[n].point += 1; }
+										else { step_mas[n].point += 0; }
+										step_mas[n].point += 3;
+										step_mas[n].deistvie = 2;
+									}
+								}
+								else if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0) // в любых других случаях (обычный ход вперед на 1)
+								{
+									if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x) == 1) { step_mas[n].point += 1; }
+									else { step_mas[n].point += 0; }
+									step_mas[n].point += 2;
+									step_mas[n].deistvie = 1;
+								}
+								if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x - 1 >= 0) {
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) // бить левее 
+									{
+										step_mas[n].point = 10; // смотря кто там стоит кол-во баллов
+										step_mas[n].deistvie = 3;
+									}
+								}
+								if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x + 1 < Size_Board) {
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] < 0) // бить правее
+									{
+										times = 15; /// смотря кто там стоит кол-во баллов
+										if (step_mas[n].point < times) {
+											step_mas[n].point = times;
+											step_mas[n].deistvie = 4;
+										}
+									}
+								}
+							}
+							n++;
+							plus++;
+						}
+						plus = 8;	
+						// Кони
+						while (plus < 10) { // Проверка Коней ----------------------------------------------------------------------------------------------------------
+							if (step_mas[plus].life == 1) {
+								//CalNStap12(poz_mas[8].x, poz_mas[8].y); // детект ходов коня
+								int oy = poz_mas[plus].y, ox = poz_mas[plus].x;
+								times = 0;
+								if (oy - 2 >= 0 && ox - 1 >= 0 && board[oy - 2][ox - 1] <= 0) // самый верхний левый (2 вверх, 1 налево)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y - 2, poz_mas[plus].x - 1) == 1) { step_mas[n].point += 1; }
+									else { step_mas[n].point -= 1; }
+									if (board[oy - 2][ox - 1] < 0) { step_mas[n].point += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
+									//step_mas[n].deistvie = 1;
+								}
+								if (oy - 2 >= 0 && ox + 1 < Size_Board && board[oy - 2][ox + 1] <= 0) // самый верхний правый (2 вверх, 1 направо)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y - 2, poz_mas[plus].x + 1) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy - 2][ox + 1] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
+									//step_mas[n].deistvie = 2;
+								}
+								if (oy - 1 >= 0 && ox + 2 < Size_Board && board[oy - 1][ox + 2] <= 0) // вправа немного выше (1 вверх, 2 вправо)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y - 1, poz_mas[plus].x + 2) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy - 1][ox + 2] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
+									//step_mas[n].deistvie = 3;
+								}
+								if (oy + 1 < Size_Board && ox + 2 < Size_Board && board[oy + 1][ox + 2] <= 0) // вправа немного ниже (1 вниз, 2 вправо)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x + 2) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy + 1][ox + 2] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
+									//step_mas[n].deistvie = 4;
+								}
+								if (oy + 2 < Size_Board && ox + 1 < Size_Board && board[oy + 2][ox + 1] <= 0) // самый нижниий правый (2 вниз, 1 вправо)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x + 1) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy + 2][ox + 1] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
+									//step_mas[n].deistvie = 5;
+								}
+								if (oy + 2 < Size_Board && ox - 1 >= 0 && board[oy + 2][ox - 1] <= 0) // самый нижниий левый (2 вниз, 1 влево)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x - 1) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy + 2][ox - 1] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
+									//step_mas[n].deistvie = 6;
+								}
+								if (oy + 1 < Size_Board && ox - 2 >= 0 && board[oy + 1][ox - 2] <= 0) // влево немного ниже (1 вниз, 2 влево)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x - 2) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy + 1][ox - 2] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
+									//step_mas[n].deistvie = 7;
+								}
+								if (oy - 1 >= 0 && ox - 2 >= 0 && board[oy - 1][ox - 2] <= 0) // влево немного выше (1 вверх, 2 влево)
+								{
+									times = 1;
+									if (PionNegruSahCheck(poz_mas[plus].y - 1, poz_mas[plus].x - 2) == 1) { times += 1; }
+									else { times -= 1; }
+									if (board[oy - 1][ox - 2] < 0) { times += 10; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
+									//step_mas[n].deistvie = 8;
+								}
+							}
+							n++;
+							plus++;
+						}
+						plus = 10;
+						// Ладьи
+						while (plus < 12) {
+							if (step_mas[plus].life == 1) {
+								int oy = poz_mas[plus].y, ox = poz_mas[plus].x;
+								times = 0;
+								for (int i = ox - 1; i >= 0; i--) // движение влево
+								{
+									if (board[oy][i] == 0)
+									{
+										step_mas[n].point += 1; // +1 за обычный ход на 1
+										step_mas[n].deistvie = 1;
+										Longturn = i;
+									}
+									else if (board[oy][i] < 0) {
+
+										step_mas[n].point += 10; // +10 за битье врага
+										step_mas[n].deistvie = 1;
+										Longturn = i;
+										break;
+									}
+									else if (board[oy][i] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								for (int i = oy - 1; i >= 0; i--) // движение вверх
+								{
+									if (board[i][ox] == 0)
+									{
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
+									}
+									else if (board[i][ox] < 0) {
+
+										times += 10; // +10 за битье врага
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
+										break;
+									}
+									else if (board[i][ox] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								for (int i = ox + 1; i <= 7; i++) // движение вправо
+								{
+									if (board[oy][i] == 0)
+									{
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
+									}
+									else if (board[oy][i] < 0) {
+
+										times += 10; // +10 за битье врага
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
+										break;
+									}
+									else if (board[oy][i] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								for (int i = oy + 1; i <= 7; i++) // движение вниз
+								{
+									if (board[i][ox] == 0)
+									{
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
+									}
+									else if (board[i][ox] < 0) {
+
+										times += 10; // +10 за битье врага
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
+										break;
+									}
+									else if (board[i][ox] != 0)
+									{
+										break;
+									}
+								}
+							}
+							n++;
+							plus++;
+						}
+						plus = 12;
+						// Слоны
+						while (plus < 14) {
+							if (step_mas[plus].life == 1) {
+								times = 0;
+								int j = poz_mas[plus].x - 1;
+
+								for (int i = poz_mas[plus].y - 1; i >= 0; i--) // влево вверх (действие 1)
+								{
+									if (j >= 0) {
+
+										if (board[i][j] < 0) {
+
+											times += 1; // +10 за битье врага									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; LU = j; }
+											break;
+										}
+										if (board[i][j] == 0)
+										{
+											times += 1; // +1 за обычный ход на 1
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; LU = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j--;
+								}
+
+								times = 0;
+								j = poz_mas[plus].x + 1;
+
+								for (int i = poz_mas[plus].y - 1; i >= 0; i--) // вправо вверх (действие 2)
+								{
+									if (j < 8) {
+
+										if (board[i][j] < 0) {
+
+											times += 1; // +10 за битье врага
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; RU = j; }
+											break;
+										}
+										if (board[i][j] == 0)
+										{
+											times += 1; // +1 за обычный ход на 1
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; RU = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j++;
+								}
+
+								times = 0;
+								j = poz_mas[plus].x - 1;
+
+								for (int i = poz_mas[plus].y + 1; i <= 7; i++) // влево вниз (действие 3)
+								{
+									if (j >= 0) {
+
+										if (board[i][j] < 0) {
+
+											times += 1; // +10 за битье врага									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; LD = j; }
+											break;
+										}
+										if (board[i][j] == 0)
+										{
+											times += 1; // +1 за обычный ход на 1									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; LD = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j--;
+								}
+
+								times = 0;
+								j = poz_mas[plus].x + 1;
+
+								for (int i = poz_mas[plus].y + 1; i <= 7; i++)  // вправо вниз (действие 4)
+								{
+									if (j < 8) {
+
+										if (board[i][j] < 0) {
+
+											times += 1; // +10 за битье врага
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; RD = j; }
+											break;
+										}
+										if (board[i][j] == 0)
+										{
+											times += 1; // +1 за обычный ход на 1
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; RD = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j++;
+								}
+							}
+							n++;
+							plus++;
+						}
+						plus = 14;
+						// Ферзь
+						while (plus < 15) {
+							if (step_mas[plus].life == 1) {
+								times = 0;
+								for (int i = poz_mas[plus].x - 1; i >= 0; i--) // движение влево
+								{
+									if (board[poz_mas[plus].y][i] < 0)  // действие 1 bite
+									{
+										times = 20; // +20 за битье врага			
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longregina = i; }
+										break;
+									}
+									if (board[poz_mas[plus].y][i] == 0) // движение влево
+									{
+										times += 1; // +1 за обычный ход на 1									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longregina = i; }
+									}
+									else if (board[poz_mas[plus].y][i] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								for (int i = poz_mas[plus].y - 1; i >= 0; i--) // движение вверх
+								{
+									if (board[i][poz_mas[plus].x] < 0) // действие 2 bite
+									{
+										times = 20; // +20 за битье врага			
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longregina = i; }
+										break;
+									}
+									if (board[i][poz_mas[plus].x] == 0) // движение вверх
+									{
+										times += 1; // +1 за обычный ход на 1									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longregina = i; }
+									}
+									else if (board[i][poz_mas[plus].x] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								for (int i = poz_mas[plus].x + 1; i < 8; i++) // движение вправо
+								{
+									if (board[poz_mas[plus].y][i] < 0)  // действие 3 bite
+									{
+										times = 20; // +20 за битье врага			
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longregina = i; }
+										break;
+									}
+									if (board[poz_mas[plus].y][i] == 0) // движение вправо
+									{
+										times += 1; // +1 за обычный ход на 1									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longregina = i; }
+									}
+									else if (board[poz_mas[plus].y][i] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								for (int i = poz_mas[plus].y + 1; i < 8; i++) // движение вниз
+								{
+									if (board[i][poz_mas[plus].x] < 0)  // действие 4 bite
+									{
+										times = 20; // +20 за битье врага			
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longregina = i; }
+										break;
+									}
+									if (board[i][poz_mas[plus].x] == 0)  // движение вниз
+									{
+										times += 1; // +1 за обычный ход на 1									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longregina = i; }
+									}
+									else if (board[i][poz_mas[plus].x] != 0)
+									{
+										break;
+									}
+								}
+								times = 0;
+								int j = poz_mas[plus].x - 1;
+								for (int i = poz_mas[plus].y - 1; i >= 0; i--) // движение влево вверх
+								{
+									if (j >= 0) {
+
+										if (board[i][j] < 0) // действие 5 bite
+										{
+											times = 20; // +20 за битье врага			
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; Longregina = i; ReginaLU = j; }
+											break;
+										}
+										if (board[i][j] == 0)  // движение влево вверх
+										{
+											times += 1; // +1 за обычный ход на 1									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; Longregina = i; ReginaLU = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j--;
+								}
+								times = 0;
+								j = poz_mas[plus].x + 1;
+								for (int i = poz_mas[plus].y - 1; i >= 0; i--) // движение вправо вверх
+								{
+									if (j < 8) {
+
+										if (board[i][j] < 0)  // действие 6 bite
+										{
+											times = 20; // +20 за битье врага			
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; Longregina = i; ReginaRU = j; }
+											break;
+										}
+										if (board[i][j] == 0)  // движение вправо вверх
+										{
+											times += 1; // +1 за обычный ход на 1									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; Longregina = i; ReginaRU = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j++;
+								}
+								times = 0;
+								j = poz_mas[plus].x - 1;
+								for (int i = poz_mas[plus].y + 1; i < 8; i++) // движение влево вниз
+								{
+									if (j >= 0) {
+
+										if (board[i][j] < 0) // действие 7 bite
+										{
+											times = 20; // +20 за битье врага			
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; Longregina = i; ReginaLD = j; }
+											break;
+										}
+										if (board[i][j] == 0) // движение влево вниз
+										{
+											times += 1; // +1 за обычный ход на 1									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; Longregina = i; ReginaLD = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j--;
+								}
+								times = 0;
+								j = poz_mas[plus].x + 1;
+								for (int i = poz_mas[plus].y + 1; i < 8; i++)  // движение вправо вниз
+								{
+									if (j < 8) {
+
+										if (board[i][j] < 0) // действие 8 bite
+										{
+											times = 20; // +20 за битье врага			
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; Longregina = i; ReginaRD = j; }
+											break;
+										}
+										if (board[i][j] == 0) // движение вправо вниз
+										{
+											times += 1; // +1 за обычный ход на 1									
+											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; Longregina = i; ReginaRD = j; }
+										}
+										else if (board[i][j] != 0)
+										{
+											break;
+										}
+									}
+									j++;
+								}
+							}
+							n++;
+							plus++;
+						}						
+						plus = 15;
+						// Король
+						while (plus < 16) {
+
+							if (step_mas[plus].life == 1) {
+
+								times = 0;
+								if (poz_mas[plus].x - 1 >= 0 && poz_mas[plus].y - 1 >= 0 && board[poz_mas[plus].y - 1][poz_mas[plus].x - 1] <= 0) // влево вверх (действие 1)
+								{
+									if (board[poz_mas[plus].y - 1][poz_mas[plus].x - 1] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
+									}
+									if (board[poz_mas[plus].y - 1][poz_mas[plus].x - 1] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].y - 1 >= 0 && board[poz_mas[plus].y - 1][poz_mas[plus].x] <= 0) // вверх (действие 2)
+								{
+									if (board[poz_mas[plus].y - 1][poz_mas[plus].x] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
+									}
+									if (board[poz_mas[plus].y - 1][poz_mas[plus].x] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].y - 1 >= 0 && poz_mas[plus].x + 1 < Size_Board && board[poz_mas[plus].y - 1][poz_mas[plus].x + 1] <= 0) // вправо вверх (действие 3)
+								{
+									if (board[poz_mas[plus].y - 1][poz_mas[plus].x + 1] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
+									}
+									if (board[poz_mas[plus].y - 1][poz_mas[plus].x + 1] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].x + 1 < Size_Board && board[poz_mas[plus].y][poz_mas[plus].x + 1] <= 0) // вправо (действие 4)
+								{
+									if (board[poz_mas[plus].y][poz_mas[plus].x + 1] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
+									}
+									if (board[poz_mas[plus].y][poz_mas[plus].x + 1] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].x + 1 < Size_Board && poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] <= 0) // вправо вниз (действие 5)
+								{
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
+									}
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] <= 0) // вниз (действие 6)
+								{
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
+									}
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].x - 1 >= 0 && poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] <= 0) // влево вниз (действие 7)
+								{
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
+									}
+									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
+									}
+								}
+								times = 0;
+								if (poz_mas[plus].x - 1 >= 0 && board[poz_mas[plus].y][poz_mas[plus].x - 1] <= 0) // влево (действие 8)
+								{
+									if (board[poz_mas[plus].y][poz_mas[plus].x - 1] < 0) {
+
+										times += 10; // +10 за битье врага									
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
+									}
+									if (board[poz_mas[plus].y][poz_mas[plus].x - 1] == 0) {
+
+										times += 1; // +1 за обычный ход на 1
+										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
+									}
+								}
+							}
+							n++;
+							plus++;
+						}
+
+						// лучший результат = ход
+						n = 0, p = 0;
+						BestPoint = 0;
+						while (p < 20) {
+							if (BestPoint < step_mas[n].point) { BestPoint = step_mas[n].point; BestStep = n; p++; n++; }
+							else { p++;	n++; }
+						}
+
+						if (step_mas[BestStep].name == PionNEGRU1 || step_mas[BestStep].name == PionNEGRU2 || step_mas[BestStep].name == PionNEGRU3 || step_mas[BestStep].name == PionNEGRU4 || step_mas[BestStep].name == PionNEGRU5 || step_mas[BestStep].name == PionNEGRU6 || step_mas[BestStep].name == PionNEGRU7 || step_mas[BestStep].name == PionNEGRU8) {
+
+							if (step_mas[BestStep].deistvie == 1) { // ход вперед на 1 
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = PionNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 3) { // бить влево
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = PionNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 4) { // бить вправо
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = PionNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
+
+							}
+							else if (step_mas[BestStep].deistvie == 2) { // ход вперед на 2
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = PionNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x] = step_mas[BestStep].name;
+							}
+
+						}
+						
+						if (step_mas[BestStep].name == CalNEGRU1 || step_mas[BestStep].name == CalNEGRU2) { // действия коня ------------------------------------------------------------------------
+
+							if (step_mas[BestStep].deistvie == 1) { // самый верхний левый (2 вверх, 1 налево)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y - 2][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 2) { // самый верхний правый (2 вверх, 1 направо)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y - 2][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 3) { // вправа немного выше (1 вверх, 2 вправо)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y - 1][poz_mas[BestStep].x + 2] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 4) { // вправа немного ниже (1 вниз, 2 вправо)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x + 2] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 5) { // самый нижниий правый (2 вниз, 1 вправо)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 6) { // самый нижниий левый (2 вниз, 1 влево)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 7) { // влево немного ниже (1 вниз, 2 влево)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x - 2] = step_mas[BestStep].name;
+							}
+							else if (step_mas[BestStep].deistvie == 8) { // влево немного выше (1 вверх, 2 влево)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = CalNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y - 1][poz_mas[BestStep].x - 2] = step_mas[BestStep].name;
 							}
 						}
-						else if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0) // в любых других случаях (обычный ход вперед на 1)
-						{
-							if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x) == 1) { step_mas[n].point = 1; }
-							else { step_mas[n].point = -1; }
-							step_mas[n].point += 2;
-							step_mas[n].deistvie = 1;
-						}
-						if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x - 1 >= 0 && poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x - 1 >= 0) {
-							if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) // бить левее 
-							{
-								step_mas[n].point = 10; // смотря кто там стоит кол-во баллов
-								step_mas[n].deistvie = 3;
+
+						if (step_mas[BestStep].name == TurnNEGRU1 || step_mas[BestStep].name == TurnNEGRU2) {
+
+							if (step_mas[BestStep].deistvie == 1) {
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = TurnNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y][Longturn] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 2) {
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = TurnNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longturn][poz_mas[BestStep].x] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 3) {
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = TurnNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y][Longturn] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 4) {
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = TurnNegru;
+
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longturn][poz_mas[BestStep].x] = step_mas[BestStep].name;
 							}
 						}
-						if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x + 1 < Size_Board && poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x + 1 < Size_Board) {
-							if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] < 0) // бить правее
+
+						if (step_mas[BestStep].name == NebunNEGRU1 || step_mas[BestStep].name == NebunNEGRU2) {
+
+							if (step_mas[BestStep].deistvie == 1) {  // влево вверх (действие 1)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = NebunNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longnebun][LU] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 2) {  // вправо вверх (действие 2)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = NebunNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longnebun][RU] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 3) { // влево вниз (действие 3)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = NebunNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longnebun][LD] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 4) { // вправо вниз (действие 4)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = NebunNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longnebun][RD] = step_mas[BestStep].name;
+							}
+						}
+
+						if (step_mas[BestStep].name == ReginaNEGRU) {
+
+							if (step_mas[BestStep].deistvie == 1) { // движение влево
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y][Longregina] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 2) { // движение вверх
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longregina][poz_mas[BestStep].x] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 3) { // движение вправо
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[BestStep].y][Longregina] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 4) { // движение вниз
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longregina][poz_mas[BestStep].x] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 5) { // движение влево вверх
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longregina][ReginaLU] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 6) { // движение вправо вверх
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longregina][ReginaRU] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 7) { // движение влево вниз
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longregina][ReginaLD] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 8) { // движение вправо вниз
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = ReginaNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[Longregina][ReginaRD] = step_mas[BestStep].name;
+							}
+						}
+
+						if (step_mas[BestStep].name == RegeNEGRU) {
+
+							if (step_mas[BestStep].deistvie == 1) { // влево вверх (действие 1)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y - 1][poz_mas[15].x - 1] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 2) { // вверх (действие 2)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y - 1][poz_mas[15].x] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 3) { // вправо вверх (действие 3)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y - 1][poz_mas[15].x + 1] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 4) { // вправо (действие 4)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y][poz_mas[15].x + 1] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 5) { // вправо вниз (действие 5)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y + 1][poz_mas[15].x + 1] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 6) { // вниз (действие 6)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y + 1][poz_mas[15].x] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 7) { // влево вниз (действие 7)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y + 1][poz_mas[15].x - 1] = step_mas[BestStep].name;
+							}
+							if (step_mas[BestStep].deistvie == 8) { // влево (действие 8)
+
+								numarPiesaMutata = step_mas[BestStep].name;
+								Mutare = RegeNegru;
+								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
+								board[poz_mas[15].y][poz_mas[15].x - 1] = step_mas[BestStep].name;
+							}
+						}
+
+						mutare = 0; // передача хода белым
+
+						// координаты всех фигур для видимости их же боту
+						for (int i = 0; i < Size_Board; i++)
+						{
+							for (int j = 0; j < Size_Board; j++)
 							{
-								times = 15; /// смотря кто там стоит кол-во баллов
-								if (step_mas[n].point < times) {
-									step_mas[n].point = times;
-									step_mas[n].deistvie = 4;
+								if (board[i][j] == PionNEGRU1)
+								{
+									step_mas[0].oldy = i;
+									step_mas[0].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU2)
+								{
+									step_mas[1].oldy = i;
+									step_mas[1].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU3)
+								{
+									step_mas[2].oldy = i;
+									step_mas[2].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU4)
+								{
+									step_mas[3].oldy = i;
+									step_mas[3].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU5)
+								{
+									step_mas[4].oldy = i;
+									step_mas[4].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU6)
+								{
+									step_mas[5].oldy = i;
+									step_mas[5].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU7)
+								{
+									step_mas[6].oldy = i;
+									step_mas[6].oldx = j;
+								}
+								if (board[i][j] == PionNEGRU8)
+								{
+									step_mas[7].oldy = i;
+									step_mas[7].oldx = j;
+								}
+								if (board[i][j] == CalNEGRU1)
+								{
+									step_mas[8].oldy = i;
+									step_mas[8].oldx = j;
+								}
+								if (board[i][j] == CalNEGRU2)
+								{
+									step_mas[9].oldy = i;
+									step_mas[9].oldx = j;
+								}
+								if (board[i][j] == TurnNEGRU1)
+								{
+									step_mas[10].oldy = i;
+									step_mas[10].oldx = j;
+								}
+								if (board[i][j] == TurnNEGRU2)
+								{
+									step_mas[11].oldy = i;
+									step_mas[11].oldx = j;
+								}
+								if (board[i][j] == NebunNEGRU1)
+								{
+									step_mas[12].oldy = i;
+									step_mas[12].oldx = j;
+								}
+								if (board[i][j] == NebunNEGRU2)
+								{
+									step_mas[13].oldy = i;
+									step_mas[13].oldx = j;
+								}
+								if (board[i][j] == ReginaNEGRU)
+								{
+									step_mas[14].oldy = i;
+									step_mas[14].oldx = j;
+								}								
+								if (board[i][j] == RegeNEGRU)
+								{
+									step_mas[15].oldy = i;
+									step_mas[15].oldx = j;
 								}
 							}
 						}
-						n++;
-						plus++;
-					}
-					plus = 8;
-					while (plus < 10) { // Проверка Коней ----------------------------------------------------------------------------------------------------------
-
-						//CalNStap12(poz_mas[8].x, poz_mas[8].y); // детект ходов коня
-						int oy = poz_mas[plus].y, ox = poz_mas[plus].x;
-						times = 0;
-						if (oy - 2 >= 0 && ox - 1 >= 0 && board[oy - 2][ox - 1] <= 0) // самый верхний левый (2 вверх, 1 налево)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y - 2, poz_mas[plus].x - 1) == 1) { step_mas[n].point += 1; }
-							else { step_mas[n].point -= 1; }
-							if (board[oy - 2][ox - 1] < 0) { step_mas[n].point += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
-							//step_mas[n].deistvie = 1;
-						}
-						if (oy - 2 >= 0 && ox + 1 < Size_Board  && board[oy - 2][ox + 1] <= 0) // самый верхний правый (2 вверх, 1 направо)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y - 2, poz_mas[plus].x + 1) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy - 2][ox + 1] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
-							//step_mas[n].deistvie = 2;
-						}
-						if (oy - 1 >= 0 && ox + 2 < Size_Board && board[oy - 1][ox + 2] <= 0) // вправа немного выше (1 вверх, 2 вправо)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y - 1, poz_mas[plus].x + 2) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy - 1][ox + 2] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
-							//step_mas[n].deistvie = 3;
-						}
-						if (oy + 1 < Size_Board && ox + 2 < Size_Board && board[oy + 1][ox + 2] <= 0) // вправа немного ниже (1 вниз, 2 вправо)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x + 2) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy + 1][ox + 2] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
-							//step_mas[n].deistvie = 4;
-						}
-						if (oy + 2 < Size_Board && ox + 1 < Size_Board && board[oy + 2][ox + 1] <= 0) // самый нижниий правый (2 вниз, 1 вправо)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x + 1) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy + 2][ox + 1] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
-							//step_mas[n].deistvie = 5;
-						}
-						if (oy + 2 < Size_Board && ox - 1 >= 0 && board[oy + 2][ox - 1] <= 0) // самый нижниий левый (2 вниз, 1 влево)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x - 1) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy + 2][ox - 1] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
-							//step_mas[n].deistvie = 6;
-						}
-						if (oy + 1 < Size_Board && ox - 2 >= 0 && board[oy + 1][ox - 2] <= 0) // влево немного ниже (1 вниз, 2 влево)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x - 2) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy + 1][ox - 2] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
-							//step_mas[n].deistvie = 7;
-						}
-						if (oy - 1 >= 0 && ox - 2 >= 0 && board[oy - 1][ox - 2] <= 0) // влево немного выше (1 вверх, 2 влево)
-						{
-							times = 1;
-							if (PionNegruSahCheck(poz_mas[plus].y - 1, poz_mas[plus].x - 2) == 1) { times += 1; }
-							else { times -= 1; }
-							if (board[oy - 1][ox - 2] < 0) { times += 10; }
-							if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
-							//step_mas[n].deistvie = 8;
-						}
-						n++;
-						plus++;						
-					}
-					plus = 10;
-					while (plus < 12) {
-						int oy = poz_mas[plus].y, ox = poz_mas[plus].x;
-						times = 0;
-						for (int i = ox - 1; i >= 0; i--) // движение влево
-						{
-							if (board[oy][i] == 0)
-							{								
-								step_mas[n].point += 1; // +1 за обычный ход на 1	
-								step_mas[n].deistvie = 1;
-								Longturn = i;
-							}
-							else if (board[oy][i] < 0) {
-
-								step_mas[n].point += 10; // +10 за битье врага
-								step_mas[n].deistvie = 1;
-								Longturn = i;
-								break;
-							}
-							else if (board[oy][i] != 0)
-							{
-								break;
-							}
-						}
-						times = 0;
-						for (int i = oy - 1; i >= 0; i--) // движение вверх
-						{
-							if (board[i][ox] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1	
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
-							}
-							else if (board[i][ox] < 0) {
-
-								times += 10; // +10 за битье врага
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
-								break;
-							}
-							else if (board[i][ox] != 0)
-							{
-								break;
-							}
-						}
-						times = 0;
-						for (int i = ox + 1; i <= 7; i++) // движение вправо
-						{
-							if (board[oy][i] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1	
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
-							}
-							else if (board[oy][i] < 0) {
-
-								times += 10; // +10 за битье врага
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
-								break;
-							}
-							else if (board[oy][i] != 0)
-							{
-								break;
-							}
-						}
-						times = 0;
-						for (int i = oy + 1; i <= 7; i++) // движение вниз
-						{
-							if (board[i][ox] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1	
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
-							}
-							else if (board[i][ox] < 0) {
-
-								times += 10; // +10 за битье врага
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
-								break;
-							}
-							else if (board[i][ox] != 0)
-							{
-								break;
-							}
-						}
-						n++;
-						plus++;
-					}
-					plus = 12;
-					while (plus < 14) {
-
-						times = 0;
-						int j = poz_mas[plus].x - 1;
-						for (int i = poz_mas[plus].y - 1; i >= 0; i--) // влево вверх (действие 1)
-						{
-							if (board[i][j] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1
-								RU += 1;
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; }
-							}
-							else if (board[i][j] < 0) {
-
-								times += 10; // +10 за битье врага
-								RU += 1;
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; }
-								break;
-							}
-							else if (board[i][j] != 0)
-							{
-								break;
-							}
-							j--;
-						}
-						times = 0;
-						j = poz_mas[plus].x + 1;
-						for (int i = poz_mas[plus].y - 1; i >= 0; i--) // вправо вверх (действие 2)
-						{
-							if (board[i][j] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; }
-							}
-							else if (board[i][j] < 0) {
-
-								times += 10; // +10 за битье врага
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; }
-								break;
-							}
-							else if (board[i][j] != 0)
-							{
-								break;
-							}
-							j++;
-						}
-						times = 0;
-						j = poz_mas[plus].x - 1;
-						for (int i = poz_mas[plus].y + 1; i <= 7; i++) // влево вниз (действие 3)
-						{
-							if (board[i][j] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1
-								LD += 1;
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; }
-							}
-							else if (board[i][j] < 0) {
-
-								times += 10; // +10 за битье врага
-								LD += 1;
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; }
-								break;
-							}
-							else if (board[i][j] != 0)
-							{
-								break;
-							}
-							j--;
-						}
-						times = 0;
-						j = poz_mas[plus].x + 1;
-						for (int i = poz_mas[plus].y + 1; i <= 7; i++)  // вправо вниз (действие 4)
-						{
-							if (board[i][j] == 0)
-							{
-								times += 1; // +1 за обычный ход на 1
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; }
-							}
-							else if (board[i][j] < 0) {
-
-								times += 10; // +10 за битье врага
-								if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; }
-								break;
-							}
-							else if (board[i][j] != 0)
-							{
-								break;
-							}
-							j++;
-						}
-						n++;
-						plus++;
-					}
-
-					// лучший результат = ход
-					n = 0, p = 0;
-					while (p < 20) { // это в самом конце после анализа всех фигур ( меньше скольки кол-ва записей)
-						if (step_mas[n].point < step_mas[n + 1].point) { BestStep = n + 1; p++;	n++; }
-						else { p++;	n++; }
-					}
-					
-					if (step_mas[BestStep].name == PionNEGRU1 || step_mas[BestStep].name == PionNEGRU2 || step_mas[BestStep].name == PionNEGRU3 || step_mas[BestStep].name == PionNEGRU4 || step_mas[BestStep].name == PionNEGRU5 || step_mas[BestStep].name == PionNEGRU6 || step_mas[BestStep].name == PionNEGRU7 || step_mas[BestStep].name == PionNEGRU8) {
-
-						if (step_mas[BestStep].deistvie == 1) { // ход вперед на 1 
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = PionNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 3) { // бить влево
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = PionNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 4) { // бить вправо
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = PionNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
-
-						}
-						else if (step_mas[BestStep].deistvie == 2) { // ход вперед на 2
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = PionNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x] = step_mas[BestStep].name;
-						}
-
-					}
-
-					if (step_mas[BestStep].name == CalNEGRU1 || step_mas[BestStep].name == CalNEGRU2) { // действия коня ------------------------------------------------------------------------
-
-						if (step_mas[BestStep].deistvie == 1) { // самый верхний левый (2 вверх, 1 налево)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y - 2][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 2) { // самый верхний правый (2 вверх, 1 направо)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y - 2][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 3) { // вправа немного выше (1 вверх, 2 вправо)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y - 1][poz_mas[BestStep].x + 2] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 4) { // вправа немного ниже (1 вниз, 2 вправо)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x + 2] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 5) { // самый нижниий правый (2 вниз, 1 вправо)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x + 1] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 6) { // самый нижниий левый (2 вниз, 1 влево)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x - 1] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 7) { // влево немного ниже (1 вниз, 2 влево)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + 1][poz_mas[BestStep].x - 2] = step_mas[BestStep].name;
-						}
-						else if (step_mas[BestStep].deistvie == 8) { // влево немного выше (1 вверх, 2 влево)
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = CalNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y - 1][poz_mas[BestStep].x - 2] = step_mas[BestStep].name;
-						}
-					}
-
-					if (step_mas[BestStep].name == TurnNEGRU1 || step_mas[BestStep].name == TurnNEGRU2) {
-
-						if (step_mas[BestStep].deistvie == 1) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = TurnNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y][Longturn] = step_mas[BestStep].name;
-						}
-						if (step_mas[BestStep].deistvie == 2) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = TurnNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[Longturn][poz_mas[BestStep].x] = step_mas[BestStep].name;
-						}
-						if (step_mas[BestStep].deistvie == 3) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = TurnNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y][Longturn] = step_mas[BestStep].name;
-						}
-						if (step_mas[BestStep].deistvie == 4) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = TurnNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[Longturn][poz_mas[BestStep].x] = step_mas[BestStep].name;
-						}
-					}
-
-					if (step_mas[BestStep].name == NebunNEGRU1 || step_mas[BestStep].name == NebunNEGRU2) {
-
-						if (step_mas[BestStep].deistvie == 1) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = NebunNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[Longnebun][Longnebun] = step_mas[BestStep].name;
-						}
-						if (step_mas[BestStep].deistvie == 2) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = NebunNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y - RU][poz_mas[BestStep].x + RU] = step_mas[BestStep].name;
-						}
-						if (step_mas[BestStep].deistvie == 3) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = NebunNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + LD][poz_mas[BestStep].x - LD] = step_mas[BestStep].name;
-						}
-						if (step_mas[BestStep].deistvie == 4) {
-
-							numarPiesaMutata = step_mas[BestStep].name;
-							Mutare = NebunNegru;
-
-							board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
-							board[poz_mas[BestStep].y + Longnebun][poz_mas[BestStep].x + Longnebun] = step_mas[BestStep].name;
-						}
-					}
-
-						mutare = 0; // передача хода белым
 						
-						for (int q = 0; q < 8; q++) {
-							for (int w = 0; w < 8; w++) {
-								std::cout << board[q][w] << " ";
-								if (w == 7) std::cout << std::endl;
-							}
-						}
+						std::cout << "poz_mas[BestStep].y = " << poz_mas[BestStep].y << std::endl;
+						std::cout << "poz_mas[BestStep].x = " << poz_mas[BestStep].x << std::endl;
+						pozPionNegru();
+						std::cout << std::endl;
+						std::cout << "poz_mas[BestStep].y = " << poz_mas[BestStep].y << std::endl;
+						std::cout << "poz_mas[BestStep].x = " << poz_mas[BestStep].x << std::endl;
+						std::cout << std::endl;	
 						std::cout << "-------" << std::endl;
-						
-					
-				}//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+						std::cout << std::endl;
+					}
+				}
 			}
 		}
 		// Отображать
@@ -2767,27 +3502,26 @@ int main()
 		{
 			for (int j = 0; j < Size_Board; j++)
 			{
-
 				if (board[i][j] != 0)
 				{
 					if (board[i][j] == PionNEGRU1)
 					{
-						PionNegru.setPosition(j * size, i * size);
+						PionNegru.setPosition(j* size, i* size);
 						window.draw(PionNegru);
 					}
 					if (board[i][j] == PionNEGRU2)
 					{
-						PionNegru.setPosition(j * size, i * size);
+						PionNegru.setPosition(j* size, i* size);
 						window.draw(PionNegru);
 					}
 					if (board[i][j] == PionNEGRU3)
 					{
-						PionNegru.setPosition(j * size, i * size);
+						PionNegru.setPosition(j* size, i* size);
 						window.draw(PionNegru);
 					}
 					if (board[i][j] == PionNEGRU4)
 					{
-						PionNegru.setPosition(j * size, i * size);
+						PionNegru.setPosition(j* size, i* size);
 						window.draw(PionNegru);
 					}
 					if (board[i][j] == PionNEGRU5)
@@ -2810,8 +3544,6 @@ int main()
 						PionNegru.setPosition(j * size, i * size);
 						window.draw(PionNegru);
 					}
-
-
 					if (board[i][j] == PionALB)
 					{
 						PionAlb.setPosition(j * size, i * size);
@@ -2831,7 +3563,6 @@ int main()
 					{
 						TurnAlb.setPosition(j * size, i * size);
 						window.draw(TurnAlb);
-
 					}
 					if (board[i][j] == CalALB)
 					{
@@ -2872,7 +3603,7 @@ int main()
 					{
 						ReginaNegru.setPosition(j * size, i * size);
 						window.draw(ReginaNegru);
-					}
+					}					
 					if (board[i][j] == RegeNEGRU)
 					{
 						RegeNegru.setPosition(j * size, i * size);
