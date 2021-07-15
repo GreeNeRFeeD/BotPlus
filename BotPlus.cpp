@@ -2459,7 +2459,7 @@ int main()
 									{
 										if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x) == 1) { step_mas[n].point += 1; }
 										else { step_mas[n].point += 0; }
-										step_mas[n].point += 3;
+										step_mas[n].point += 6;
 										step_mas[n].deistvie = 2;
 									}
 								}
@@ -2467,20 +2467,20 @@ int main()
 								{
 									if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x) == 1) { step_mas[n].point += 1; }
 									else { step_mas[n].point += 0; }
-									step_mas[n].point += 2;
+									step_mas[n].point += 5;
 									step_mas[n].deistvie = 1;
 								}
 								if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x - 1 >= 0) {
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) // бить левее 
 									{
-										step_mas[n].point = 10; // смотря кто там стоит кол-во баллов
+										step_mas[n].point = 50; // смотря кто там стоит кол-во баллов
 										step_mas[n].deistvie = 3;
 									}
 								}
 								if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x + 1 < Size_Board) {
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] < 0) // бить правее
 									{
-										times = 15; /// смотря кто там стоит кол-во баллов
+										times = 50; /// смотря кто там стоит кол-во баллов
 										if (step_mas[n].point < times) {
 											step_mas[n].point = times;
 											step_mas[n].deistvie = 4;
@@ -2500,75 +2500,67 @@ int main()
 								times = 0;
 								if (oy - 2 >= 0 && ox - 1 >= 0 && board[oy - 2][ox - 1] <= 0) // самый верхний левый (2 вверх, 1 налево)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y - 2, poz_mas[plus].x - 1) == 1) { step_mas[n].point += 1; }
-									else { step_mas[n].point -= 1; }
-									if (board[oy - 2][ox - 1] < 0) { step_mas[n].point += 10; }
+									else { step_mas[n].point += 0; }
+									if (board[oy - 2][ox - 1] < 0) { step_mas[n].point = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
-									//step_mas[n].deistvie = 1;
 								}
 								if (oy - 2 >= 0 && ox + 1 < Size_Board && board[oy - 2][ox + 1] <= 0) // самый верхний правый (2 вверх, 1 направо)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y - 2, poz_mas[plus].x + 1) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy - 2][ox + 1] < 0) { times += 10; }
+									else { times += 0; }
+									if (board[oy - 2][ox + 1] < 0) { times = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
-									//step_mas[n].deistvie = 2;
 								}
 								if (oy - 1 >= 0 && ox + 2 < Size_Board && board[oy - 1][ox + 2] <= 0) // вправа немного выше (1 вверх, 2 вправо)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y - 1, poz_mas[plus].x + 2) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy - 1][ox + 2] < 0) { times += 10; }
+									else { times += 0; }
+									if (board[oy - 1][ox + 2] < 0) { times = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
-									//step_mas[n].deistvie = 3;
 								}
 								if (oy + 1 < Size_Board && ox + 2 < Size_Board && board[oy + 1][ox + 2] <= 0) // вправа немного ниже (1 вниз, 2 вправо)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x + 2) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy + 1][ox + 2] < 0) { times += 10; }
+									else { times += 0; }
+									if (board[oy + 1][ox + 2] < 0) { times = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
-									//step_mas[n].deistvie = 4;
 								}
 								if (oy + 2 < Size_Board && ox + 1 < Size_Board && board[oy + 2][ox + 1] <= 0) // самый нижниий правый (2 вниз, 1 вправо)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x + 1) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy + 2][ox + 1] < 0) { times += 10; }
+									else { times += 0; }
+									if (board[oy + 2][ox + 1] < 0) { times = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
-									//step_mas[n].deistvie = 5;
 								}
 								if (oy + 2 < Size_Board && ox - 1 >= 0 && board[oy + 2][ox - 1] <= 0) // самый нижниий левый (2 вниз, 1 влево)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y + 2, poz_mas[plus].x - 1) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy + 2][ox - 1] < 0) { times += 10; }
+									else { times += 0; }
+									if (board[oy + 2][ox - 1] < 0) { times = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
-									//step_mas[n].deistvie = 6;
 								}
 								if (oy + 1 < Size_Board && ox - 2 >= 0 && board[oy + 1][ox - 2] <= 0) // влево немного ниже (1 вниз, 2 влево)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y + 1, poz_mas[plus].x - 2) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy + 1][ox - 2] < 0) { times += 10; }
+									else { times += 0; }
+									if (board[oy + 1][ox - 2] < 0) { times = 50; }
 									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
-									//step_mas[n].deistvie = 7;
 								}
 								if (oy - 1 >= 0 && ox - 2 >= 0 && board[oy - 1][ox - 2] <= 0) // влево немного выше (1 вверх, 2 влево)
 								{
-									times = 1;
+									times = 5;
 									if (PionNegruSahCheck(poz_mas[plus].y - 1, poz_mas[plus].x - 2) == 1) { times += 1; }
-									else { times -= 1; }
-									if (board[oy - 1][ox - 2] < 0) { times += 10; }
-									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
-									//step_mas[n].deistvie = 8;
+									else { times += 0; }
+									if (board[oy - 1][ox - 2] < 0) { times = 50; }
+									if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }									
 								}
 							}
 							n++;
@@ -2584,13 +2576,13 @@ int main()
 								{
 									if (board[oy][i] == 0)
 									{
-										step_mas[n].point += 1; // +1 за обычный ход на 1
+										step_mas[n].point = 3; // 3 за обычный ход
 										step_mas[n].deistvie = 1;
 										Longturn = i;
 									}
 									else if (board[oy][i] < 0) {
 
-										step_mas[n].point += 10; // +10 за битье врага
+										step_mas[n].point = 30; // 30 за битье врага
 										step_mas[n].deistvie = 1;
 										Longturn = i;
 										break;
@@ -2605,13 +2597,13 @@ int main()
 								{
 									if (board[i][ox] == 0)
 									{
-										times += 1; // +1 за обычный ход на 1
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
+										times = 3; // 3 за обычный ход
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
 									}
 									else if (board[i][ox] < 0) {
 
-										times += 10; // +10 за битье врага
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
+										times = 30; // 30 за битье врага
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longturn = i; }
 										break;
 									}
 									else if (board[i][ox] != 0)
@@ -2624,13 +2616,13 @@ int main()
 								{
 									if (board[oy][i] == 0)
 									{
-										times += 1; // +1 за обычный ход на 1
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
+										times = 3; // 3 за обычный ход
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
 									}
 									else if (board[oy][i] < 0) {
 
-										times += 10; // +10 за битье врага
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
+										times = 30; // 30 за битье врага
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longturn = i; }
 										break;
 									}
 									else if (board[oy][i] != 0)
@@ -2643,13 +2635,13 @@ int main()
 								{
 									if (board[i][ox] == 0)
 									{
-										times += 1; // +1 за обычный ход на 1
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
+										times = 3; // 3 за обычный ход
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
 									}
 									else if (board[i][ox] < 0) {
 
-										times += 10; // +10 за битье врага
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
+										times = 30; // 30 за битье врага
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longturn = i; }
 										break;
 									}
 									else if (board[i][ox] != 0)
@@ -2674,14 +2666,14 @@ int main()
 
 										if (board[i][j] < 0) {
 
-											times += 1; // +10 за битье врага									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; LU = j; }
+											times = 40; // 40 за битье врага									
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; LU = j; }
 											break;
 										}
 										if (board[i][j] == 0)
 										{
-											times += 1; // +1 за обычный ход на 1
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; LU = j; }
+											times = 4; // 4 за обычный ход
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longnebun = i; LU = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2700,14 +2692,14 @@ int main()
 
 										if (board[i][j] < 0) {
 
-											times += 1; // +10 за битье врага
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; RU = j; }
+											times = 40; // 40 за битье врага
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; RU = j; }
 											break;
 										}
 										if (board[i][j] == 0)
 										{
-											times += 1; // +1 за обычный ход на 1
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; RU = j; }
+											times = 4; // 4 за обычный ход
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longnebun = i; RU = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2726,14 +2718,14 @@ int main()
 
 										if (board[i][j] < 0) {
 
-											times += 1; // +10 за битье врага									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; LD = j; }
+											times = 40; // 40 за битье врага									
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; LD = j; }
 											break;
 										}
 										if (board[i][j] == 0)
 										{
-											times += 1; // +1 за обычный ход на 1									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; LD = j; }
+											times = 4; // 4 за обычный ход									
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longnebun = i; LD = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2752,14 +2744,14 @@ int main()
 
 										if (board[i][j] < 0) {
 
-											times += 1; // +10 за битье врага
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; RD = j; }
+											times = 40; // 40 за битье врага
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; RD = j; }
 											break;
 										}
 										if (board[i][j] == 0)
 										{
-											times += 1; // +1 за обычный ход на 1
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; RD = j; }
+											times = 4; // 4 за обычный ход
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longnebun = i; RD = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2781,14 +2773,14 @@ int main()
 								{
 									if (board[poz_mas[plus].y][i] < 0)  // действие 1 bite
 									{
-										times = 20; // +20 за битье врага			
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longregina = i; }
+										times = 20; // 20 за битье врага			
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longregina = i; }
 										break;
 									}
 									if (board[poz_mas[plus].y][i] == 0) // движение влево
 									{
-										times += 1; // +1 за обычный ход на 1									
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longregina = i; }
+										times = 2; // 2 за обычный ход							
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; Longregina = i; }
 									}
 									else if (board[poz_mas[plus].y][i] != 0)
 									{
@@ -2800,14 +2792,14 @@ int main()
 								{
 									if (board[i][poz_mas[plus].x] < 0) // действие 2 bite
 									{
-										times = 20; // +20 за битье врага			
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longregina = i; }
+										times = 20; // 20 за битье врага			
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longregina = i; }
 										break;
 									}
 									if (board[i][poz_mas[plus].x] == 0) // движение вверх
 									{
-										times += 1; // +1 за обычный ход на 1									
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longregina = i; }
+										times = 2; // 2 за обычный ход									
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; Longregina = i; }
 									}
 									else if (board[i][poz_mas[plus].x] != 0)
 									{
@@ -2819,14 +2811,14 @@ int main()
 								{
 									if (board[poz_mas[plus].y][i] < 0)  // действие 3 bite
 									{
-										times = 20; // +20 за битье врага			
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longregina = i; }
+										times = 20; // 20 за битье врага			
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longregina = i; }
 										break;
 									}
 									if (board[poz_mas[plus].y][i] == 0) // движение вправо
 									{
-										times += 1; // +1 за обычный ход на 1									
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longregina = i; }
+										times = 2; // 2 за обычный ход									
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; Longregina = i; }
 									}
 									else if (board[poz_mas[plus].y][i] != 0)
 									{
@@ -2838,14 +2830,14 @@ int main()
 								{
 									if (board[i][poz_mas[plus].x] < 0)  // действие 4 bite
 									{
-										times = 20; // +20 за битье врага			
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longregina = i; }
+										times = 20; // 20 за битье врага			
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longregina = i; }
 										break;
 									}
 									if (board[i][poz_mas[plus].x] == 0)  // движение вниз
 									{
-										times += 1; // +1 за обычный ход на 1									
-										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longregina = i; }
+										times = 2; // 2 за обычный ход									
+										if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; Longregina = i; }
 									}
 									else if (board[i][poz_mas[plus].x] != 0)
 									{
@@ -2860,14 +2852,14 @@ int main()
 
 										if (board[i][j] < 0) // действие 5 bite
 										{
-											times = 20; // +20 за битье врага			
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; Longregina = i; ReginaLU = j; }
+											times = 20; // 20 за битье врага			
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; Longregina = i; ReginaLU = j; }
 											break;
 										}
 										if (board[i][j] == 0)  // движение влево вверх
 										{
-											times += 1; // +1 за обычный ход на 1									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; Longregina = i; ReginaLU = j; }
+											times = 2; // 2 за обычный ход									
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; Longregina = i; ReginaLU = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2884,14 +2876,14 @@ int main()
 
 										if (board[i][j] < 0)  // действие 6 bite
 										{
-											times = 20; // +20 за битье врага			
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; Longregina = i; ReginaRU = j; }
+											times = 20; // 20 за битье врага			
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; Longregina = i; ReginaRU = j; }
 											break;
 										}
 										if (board[i][j] == 0)  // движение вправо вверх
 										{
-											times += 1; // +1 за обычный ход на 1									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; Longregina = i; ReginaRU = j; }
+											times = 2; // 2 за обычный ход										
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; Longregina = i; ReginaRU = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2908,14 +2900,14 @@ int main()
 
 										if (board[i][j] < 0) // действие 7 bite
 										{
-											times = 20; // +20 за битье врага			
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; Longregina = i; ReginaLD = j; }
+											times = 20; // 20 за битье врага			
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; Longregina = i; ReginaLD = j; }
 											break;
 										}
 										if (board[i][j] == 0) // движение влево вниз
 										{
-											times += 1; // +1 за обычный ход на 1									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; Longregina = i; ReginaLD = j; }
+											times = 2; // 2 за обычный ход									
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; Longregina = i; ReginaLD = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2932,14 +2924,14 @@ int main()
 
 										if (board[i][j] < 0) // действие 8 bite
 										{
-											times = 20; // +20 за битье врага			
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; Longregina = i; ReginaRD = j; }
+											times = 20; // 20 за битье врага			
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; Longregina = i; ReginaRD = j; }
 											break;
 										}
 										if (board[i][j] == 0) // движение вправо вниз
 										{
-											times += 1; // +1 за обычный ход на 1									
-											if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; Longregina = i; ReginaRD = j; }
+											times = 2; // 2 за обычный ход										
+											if (times >= step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; Longregina = i; ReginaRD = j; }
 										}
 										else if (board[i][j] != 0)
 										{
@@ -2963,12 +2955,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y - 1][poz_mas[plus].x - 1] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
 									}
 									if (board[poz_mas[plus].y - 1][poz_mas[plus].x - 1] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 1; }
 									}
 								}
@@ -2977,12 +2969,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y - 1][poz_mas[plus].x] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
 									}
 									if (board[poz_mas[plus].y - 1][poz_mas[plus].x] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 2; }
 									}
 								}
@@ -2991,12 +2983,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y - 1][poz_mas[plus].x + 1] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
 									}
 									if (board[poz_mas[plus].y - 1][poz_mas[plus].x + 1] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 3; }
 									}
 								}
@@ -3005,12 +2997,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y][poz_mas[plus].x + 1] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
 									}
 									if (board[poz_mas[plus].y][poz_mas[plus].x + 1] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 4; }
 									}
 								}
@@ -3019,12 +3011,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
 									}
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x + 1] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 5; }
 									}
 								}
@@ -3033,12 +3025,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
 									}
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 6; }
 									}
 								}
@@ -3047,12 +3039,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
 									}
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 7; }
 									}
 								}
@@ -3061,12 +3053,12 @@ int main()
 								{
 									if (board[poz_mas[plus].y][poz_mas[plus].x - 1] < 0) {
 
-										times += 10; // +10 за битье врага									
+										times = 10; // 10 за битье врага									
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
 									}
 									if (board[poz_mas[plus].y][poz_mas[plus].x - 1] == 0) {
 
-										times += 1; // +1 за обычный ход на 1
+										times = 1; // 1 за обычный ход на 1
 										if (times > step_mas[n].point) { step_mas[n].point = times; step_mas[n].deistvie = 8; }
 									}
 								}
