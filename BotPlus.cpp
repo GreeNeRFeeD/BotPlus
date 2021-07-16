@@ -73,6 +73,7 @@ poz_mas[17] = regeleNegru
 poz_mas[18] = oldPoz 
 poz_mas[19] = transformA
 poz_mas[20] = transformN
+poz_mas[21] = reginaNegru2
 */
 
 const int Size_Board = 8;
@@ -1776,9 +1777,9 @@ void pozPionNegru()//-----------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 int main()
-{
-	RenderWindow window(VideoMode(600, 600), "Chess");
-	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
+{	
+	RenderWindow window(VideoMode(850, 600), "Chess");
+	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;	
 
 	t1.loadFromFile("images/board.png");
 	t2.loadFromFile("images/PionNegru.png");
@@ -1795,6 +1796,12 @@ int main()
 	t13.loadFromFile("images/RegeAlb.png");
 	t14.loadFromFile("images/TransformareAlb.png");
 	t15.loadFromFile("images/TransformareNegru.png");
+	t16.loadFromFile("images/Win4.png");
+	t17.loadFromFile("images/Defeat2.png");
+	t18.loadFromFile("images/BackWhite.png");
+	t19.loadFromFile("images/MutaresWhite.png");
+	t20.loadFromFile("images/MutaresBlack.png");
+	t21.loadFromFile("images/BlackWhole3.png");
 
 	Sprite tabla(t1);
 	Sprite PionNegru(t2);
@@ -1809,9 +1816,15 @@ int main()
 	Sprite ReginaNegru(t11);
 	Sprite RegeNegru(t12);
 	Sprite RegeAlb(t13);
+	Sprite Win(t16);
+	Sprite Defeat(t17);
 	Sprite Mutare;
 	Sprite TransformareALB(t14);
 	Sprite TransformareNEGRU(t15);
+	Sprite BackWhite(t18);
+	Sprite MutaresWhite(t19);
+	Sprite MutaresBlack(t20);
+	Sprite BlackWhole(t21);
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
@@ -1832,6 +1845,7 @@ int main()
 	step_mas[13].life = 1;
 	step_mas[14].life = 1;
 	step_mas[15].life = 1;	
+	step_mas[21].life = 1;
 
 	while (window.isOpen())
 	{
@@ -1846,6 +1860,7 @@ int main()
 				window.close();
 			}
 			window.clear();
+
 			if (e.type == Event::MouseButtonPressed)
 			{
 				if (e.key.code == Mouse::Left)
@@ -1942,7 +1957,7 @@ int main()
 						dx = pos.x - x * size;
 						dy = pos.y - y * size;
 
-						switch (board[y][x])//---------------------------------------------------------------------------------------------------------------------------------------------
+						switch (board[y][x])
 						{
 						case (PionNEGRU1):
 							numarPiesaMutata = PionNEGRU1;
@@ -1985,14 +2000,6 @@ int main()
 							board[y][x] = 0;
 							break;
 						}
-						//---------------------------------------------------------------------------------------------------------------------------------------------
-						/*if ((board[y][x] == PionNEGRU1) && mutare == 1) /// пешка
-						{
-							numarPiesaMutata = PionNEGRU1; //---------------------------------------------------------------------------------------------------------------------------------------------
-							Mutare = PionNegru;
-							board[y][x] = 0;
-						}*/
-
 						if (board[y][x] == PionALB && mutare == 0)
 						{
 							numarPiesaMutata = PionALB;
@@ -2075,7 +2082,7 @@ int main()
 							numarPiesaMutata = ReginaNEGRU;
 							Mutare = ReginaNegru;
 							board[y][x] = 0;
-						}					
+						}									
 						if (board[y][x] == RegeNEGRU && mutare == 1) ///
 						{
 							numarPiesaMutata = RegeNEGRU;
@@ -2149,7 +2156,7 @@ int main()
 					if (numarPiesaMutata == ReginaNEGRU && move == 1) ///
 					{
 						ok = ReginaN(poz_mas[18].x, poz_mas[18].y, x, y);
-					}
+					}					
 					if (numarPiesaMutata == CalALB && move == 1)
 					{
 						ok = CalA(poz_mas[18].x, poz_mas[18].y, x, y);
@@ -2250,128 +2257,7 @@ int main()
 				{
 					if (e.key.code == Mouse::Right)
 					{
-						/*
-						for (int i = 0; i < Size_Board; i++)
-						{
-							for (int j = 0; j < Size_Board; j++)
-							{
-								if (board[i][j] != 0)
-								{
-									if (board[i][j] == PionNEGRU1)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU2)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU3)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU4)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU5)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU6)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU7)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionNEGRU8)
-									{
-										PionNegru.setPosition(j * size, i * size);
-										window.draw(PionNegru);
-									}
-									if (board[i][j] == PionALB)
-									{
-										PionAlb.setPosition(j * size, i * size);
-										window.draw(PionAlb);
-									}
-									if (board[i][j] == TurnNEGRU1)
-									{
-										TurnNegru.setPosition(j * size, i * size);
-										window.draw(TurnNegru);
-									}
-									if (board[i][j] == TurnNEGRU2)
-									{
-										TurnNegru.setPosition(j * size, i * size);
-										window.draw(TurnNegru);
-									}
-									if (board[i][j] == TurnALB)
-									{
-										TurnAlb.setPosition(j * size, i * size);
-										window.draw(TurnAlb);
-									}
-									if (board[i][j] == CalALB)
-									{
-										CalAlb.setPosition(j * size, i * size);
-										window.draw(CalAlb);
-									}
-									if (board[i][j] == CalNEGRU1)
-									{
-										CalNegru.setPosition(j * size, i * size);
-										window.draw(CalNegru);
-									}
-									if (board[i][j] == CalNEGRU2)
-									{
-										CalNegru.setPosition(j * size, i * size);
-										window.draw(CalNegru);
-									}
-									if (board[i][j] == NebunNEGRU1)
-									{
-										NebunNegru.setPosition(j * size, i * size);
-										window.draw(NebunNegru);
-									}
-									if (board[i][j] == NebunNEGRU2)
-									{
-										NebunNegru.setPosition(j * size, i * size);
-										window.draw(NebunNegru);
-									}
-									if (board[i][j] == NebunALB)
-									{
-										NebunAlb.setPosition(j * size, i * size);
-										window.draw(NebunAlb);
-									}
-									if (board[i][j] == ReginaALB)
-									{
-										ReginaAlb.setPosition(j * size, i * size);
-										window.draw(ReginaAlb);
-									}
-									if (board[i][j] == ReginaNEGRU)
-									{
-										ReginaNegru.setPosition(j * size, i * size);
-										window.draw(ReginaNegru);
-									}
-									if (board[i][j] == RegeNEGRU)
-									{
-										RegeNegru.setPosition(j * size, i * size);
-										window.draw(RegeNegru);
-									}
-									if (board[i][j] == RegeALB)
-									{
-										RegeAlb.setPosition(j * size, i * size);
-										window.draw(RegeAlb);
-									}
-								}
-							}
-						}
-						*/
-
+						
 
 						/*poz_mas[0] = pionNegru1
 						poz_mas[1] = pionNegru2
@@ -2407,7 +2293,7 @@ int main()
 						step_mas[12].name = NebunNEGRU1;
 						step_mas[13].name = NebunNEGRU2;
 
-						step_mas[14].name = ReginaNEGRU;						
+						step_mas[14].name = ReginaNEGRU;							
 
 						step_mas[15].name = RegeNEGRU;
 
@@ -2469,6 +2355,14 @@ int main()
 									else { step_mas[n].point += 0; }
 									step_mas[n].point += 5;
 									step_mas[n].deistvie = 1;
+								}
+								if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].y + 1 < Size_Board && board[poz_mas[plus].y + 1][poz_mas[plus].x] == 0 && poz_mas[plus].y + 1 == 7) // если есть возможность трансформы
+								{	
+									times = 100; /// за трансформу
+									if (step_mas[n].point < times) {
+										step_mas[n].point = times;
+										step_mas[n].deistvie = 5;
+									}
 								}
 								if (poz_mas[plus].y + 1 < Size_Board && poz_mas[plus].x - 1 >= 0) {
 									if (board[poz_mas[plus].y + 1][poz_mas[plus].x - 1] < 0) // бить левее 
@@ -2942,7 +2836,7 @@ int main()
 								}
 							}
 							n++;
-							plus++;
+							plus++;;
 						}						
 						plus = 15;
 						// Король
@@ -3070,7 +2964,7 @@ int main()
 						// лучший результат = ход
 						n = 0, p = 0;
 						BestPoint = 0;
-						while (p < 20) {
+						while (p < 25) {
 							if (BestPoint < step_mas[n].point) { BestPoint = step_mas[n].point; BestStep = n; p++; n++; }
 							else { p++;	n++; }
 						}
@@ -3109,8 +3003,7 @@ int main()
 
 								board[poz_mas[BestStep].y][poz_mas[BestStep].x] = 0;
 								board[poz_mas[BestStep].y + 2][poz_mas[BestStep].x] = step_mas[BestStep].name;
-							}
-
+							}	
 						}
 						
 						if (step_mas[BestStep].name == CalNEGRU1 || step_mas[BestStep].name == CalNEGRU2) { // действия коня ------------------------------------------------------------------------
@@ -3475,6 +3368,20 @@ int main()
 		// Отображать
 		window.clear();
 		window.draw(tabla);
+
+		BackWhite.setPosition(600, 0);
+		window.draw(BackWhite);
+
+		if (mutare == 0) {
+
+			MutaresWhite.setPosition(600, 0);
+			window.draw(MutaresWhite);
+		}
+		else {
+
+			MutaresBlack.setPosition(600, 0);
+			window.draw(MutaresBlack);
+		}
 		if (transformareAlb == 1)
 		{
 			TransformareALB.setPosition(poz_mas[19].x * size, poz_mas[19].y * size);
@@ -3608,6 +3515,12 @@ int main()
 					}
 				}
 			}
+		}		
+		if (step_mas[1].life == 0 && step_mas[2].life == 0 && step_mas[3].life == 0 && step_mas[4].life == 0 && step_mas[5].life == 0 && step_mas[6].life == 0 && step_mas[7].life == 0 && step_mas[8].life == 0 && step_mas[9].life == 0 && step_mas[10].life == 0 && step_mas[11].life == 0 && step_mas[12].life == 0 && step_mas[13].life == 0 && step_mas[14].life == 0 && step_mas[15].life == 0) {
+						
+			window.draw(BlackWhole);
+			Win.setPosition(125, 0);
+			window.draw(Win);
 		}
 		window.display();
 	}
