@@ -2046,13 +2046,7 @@ int main()
 							Mutare = CalNegru;
 							board[y][x] = 0;
 							break;
-						}
-						/*if (board[y][x] == CalNEGRU1 && mutare == 1) ///
-						{
-							numarPiesaMutata = CalNEGRU;
-							Mutare = CalNegru;
-							board[y][x] = 0;
-						}*/
+						}						
 						if (board[y][x] == NebunNEGRU1 && mutare == 1) ///
 						{
 							numarPiesaMutata = NebunNEGRU1;
@@ -2256,8 +2250,8 @@ int main()
 				if (e.type == Event::MouseButtonReleased)//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				{
 					if (e.key.code == Mouse::Right)
-					{
-						
+					{				
+			
 
 						/*poz_mas[0] = pionNegru1
 						poz_mas[1] = pionNegru2
@@ -2283,18 +2277,13 @@ int main()
 						step_mas[5].name = PionNEGRU6;
 						step_mas[6].name = PionNEGRU7;
 						step_mas[7].name = PionNEGRU8;
-
 						step_mas[8].name = CalNEGRU1;
 						step_mas[9].name = CalNEGRU2;
-
 						step_mas[10].name = TurnNEGRU1;
 						step_mas[11].name = TurnNEGRU2;
-
 						step_mas[12].name = NebunNEGRU1;
 						step_mas[13].name = NebunNEGRU2;
-
-						step_mas[14].name = ReginaNEGRU;							
-
+						step_mas[14].name = ReginaNEGRU;
 						step_mas[15].name = RegeNEGRU;
 
 						/*step_mas[0].life = 1;
@@ -3362,7 +3351,7 @@ int main()
 						std::cout << "-------" << std::endl;
 						std::cout << std::endl;
 					}
-				}
+				}///
 			}
 		}
 		// Отображать
